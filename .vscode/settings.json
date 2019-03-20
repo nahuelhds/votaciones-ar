@@ -1,0 +1,3 @@
+{
+  "phpmd.rules": "./phpmd-ruleset.xml"
+}
