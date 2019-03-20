@@ -47,7 +47,6 @@ class Handler extends ExceptionHandler
     public function render($request, Exception $exception)
     {
         if ($request->expectsJson()) {
-
             // this part is from render function in Illuminate\Foundation\Exceptions\Handler.php
             // works well for json
             $exception = $this->prepareException($exception);
