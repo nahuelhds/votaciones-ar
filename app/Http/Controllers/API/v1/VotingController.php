@@ -8,6 +8,7 @@ use App\Http\Resources\VotingCollection;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Carbon;
 
 class VotingController extends Controller
 {
@@ -35,7 +36,7 @@ class VotingController extends Controller
         $voting = new Voting();
 
         $voting->chamber = $request->chamber;
-        $voting->voted_at = $request->voted_at;
+        $voting->voted_at = Carbon::parse($request->voted_at);
         $voting->period = $request->period;
         $voting->meeting = $request->meeting;
         $voting->record = $request->record;
@@ -51,12 +52,16 @@ class VotingController extends Controller
         if ($request->has('records')) {
             foreach ($request->records as $reqRecord) {
                 $record = new VotingRecord();
+
                 $record->voting_id = $voting->id;
-                $record->original_id = $reqRecord->original_id;
+                $record->title = $reqRecord['title'];
+                $record->original_id = $reqRecord['original_id'];
+
+                $record->save();
             }
         }
 
-        return new VotingCollection($voting);
+        return $voting;
     }
 
     /**
@@ -67,7 +72,7 @@ class VotingController extends Controller
      */
     public function show(Voting $voting)
     {
-        return new VotingCollection($voting);
+        return $voting;
     }
 
     /**

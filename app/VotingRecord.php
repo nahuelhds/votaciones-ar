@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class VotingRecord extends Model
 {
     use SoftDeletes;
+
+    protected $table = 'votings_records';
 }

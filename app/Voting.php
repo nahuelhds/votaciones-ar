@@ -8,4 +8,6 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Voting extends Model
 {
     use SoftDeletes;
+
+    protected $dates = ['voted_at'];
 }
