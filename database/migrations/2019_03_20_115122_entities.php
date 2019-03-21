@@ -15,28 +15,31 @@ class Entities extends Migration
     {
         Schema::create('parties', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('name');
+
             $table->timestamps();
             $table->softDeletes();
-            $table->string('name');
         });
 
         Schema::create('regions', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->string('name');
+
             $table->timestamps();
             $table->softDeletes();
-            $table->string('name');
         });
 
         Schema::create('legislators', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->timestamps();
-            $table->softDeletes();
             $table->string('name');
             $table->string('last_name');
             $table->string('full_name');
             $table->enum('type', ['deputy', 'senator']); // si es diputado o senador
             $table->unsignedBigInteger('party_id'); // bloque actual
             $table->unsignedBigInteger('region_id'); // provincia actual
+
+            $table->timestamps();
+            $table->softDeletes();
 
             $table->foreign('party_id')->references('id')->on('parties')->onDelete('cascade');
             $table->foreign('region_id')->references('id')->on('regions')->onDelete('cascade');
