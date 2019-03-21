@@ -12,6 +12,7 @@ class VotingVote extends Model
     const VOTE_AFFIRMATIVE = 'affirmative';
     const VOTE_NEGATIVE = 'negative';
     const VOTE_ABSTENTION = 'abstention';
+    const VOTE_ABSENT = null;
 
     protected $table = 'votings_votes';
 

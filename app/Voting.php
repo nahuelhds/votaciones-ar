@@ -11,6 +11,10 @@ class Voting extends Model
 {
     use SoftDeletes;
 
+    const RESULT_AFFIRMATIVE = true;
+    const RESULT_NEGATIVE = false;
+    const RESULT_DRAW = null;
+
     protected $dates = ['voted_at'];
 
     protected $fillable = [

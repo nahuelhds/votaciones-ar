@@ -23,7 +23,7 @@ class Votings extends Migration
             $table->text('title');
             $table->string('type');
             $table->unsignedBigInteger('president_id')->nullable(); // presidente de la sesion
-            $table->boolean('result');
+            $table->boolean('result')->nullable();
             $table->string('source_url')->nullable(); // url
             $table->string('original_id')->nullable(); // id
 
