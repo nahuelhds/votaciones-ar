@@ -34,12 +34,15 @@ class VotingController extends Controller
     public function store(Request $request)
     {
         $votedAt = Carbon::parse($request->voted_at);
-        $voting = Voting::firstOrNew(['chamber' => $request->chamber, 'voted_at' => $votedAt]);
+        $voting = Voting::firstOrNew([
+            'chamber' => $request->chamber,
+            'voted_at' => $votedAt,
+            'title' => $request->title
+        ]);
 
         $voting->period = $request->period;
         $voting->meeting = $request->meeting;
         $voting->record = $request->record;
-        $voting->title = $request->title;
         $voting->type = $request->type;
         $voting->president_id = $request->president_id;
         $voting->result = $request->result;

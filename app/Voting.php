@@ -13,6 +13,7 @@ class Voting extends Model
 
     protected $fillable = [
         'chamber',
-        'voted_at'
+        'voted_at',
+        'title'
     ];
 }
