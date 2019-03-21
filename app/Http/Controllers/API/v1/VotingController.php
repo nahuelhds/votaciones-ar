@@ -12,7 +12,7 @@ use App\VotingRecord;
 use App\Legislator;
 use App\Region;
 use App\Party;
-use App\VotingDetail;
+use App\VotingVote;
 
 class VotingController extends Controller
 {
@@ -89,19 +89,20 @@ class VotingController extends Controller
 
                 switch ($columns[4]) {
                     case 'AFIRMATIVO':
-                        $vote = VotingDetail::VOTE_AFFIRMATIVE;
+                        $vote = VotingVote::VOTE_AFFIRMATIVE;
                         break;
                     case 'NEGATIVO':
-                        $vote = VotingDetail::VOTE_NEGATIVE;
+                        $vote = VotingVote::VOTE_NEGATIVE;
                         break;
                     case 'ABSTENCION':
-                        $vote = VotingDetail::VOTE_ABSTENTION;
+                        $vote = VotingVote::VOTE_ABSTENTION;
                         break;
                     default:
                         $vote = null;
                 }
 
-                VotingDetail::firstOrCreate([
+                VotingVote::firstOrCreate([
+                    'voting_id' => $voting->id,
                     'legislator_id' => $legislator->id,
                     'party_id' => $party->id,
                     'region_id' => $region->id,

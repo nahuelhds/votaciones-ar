@@ -35,7 +35,6 @@ class FillEntities extends Migration
         $nk = new Legislator();
         $nk->name = "Néstor Carlos";
         $nk->last_name = "KIRCHNER";
-        $nk->full_name = "KIRCHNER, Néstor Carlos";
         $nk->party_id = $fpv->id;
         $nk->region_id = 1;
         $nk->save();
@@ -43,7 +42,6 @@ class FillEntities extends Migration
         $nk = new Legislator();
         $nk->name = "Cristina";
         $nk->last_name = "FERNANDEZ de KIRCHNER";
-        $nk->full_name = "FERNANDEZ de KIRCHNER, Cristina";
         $nk->party_id = $pj->id;
         $nk->region_id = 20;
         $nk->save();

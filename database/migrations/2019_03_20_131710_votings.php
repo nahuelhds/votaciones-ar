@@ -42,11 +42,12 @@ class Votings extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            $table->foreign('voting_id')->references('id')->on('votings');
+            $table->foreign('voting_id')->references('id')->on('votings')->onDelete('cascade');
         });
 
-        Schema::create('votings_details', function (Blueprint $table) {
+        Schema::create('votings_votes', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->unsignedBigInteger('voting_id');
             $table->enum('type', ['deputy', 'senator']); // al momento en que voto
             $table->unsignedBigInteger('legislator_id');
             $table->unsignedBigInteger('party_id'); // al momento en que voto
@@ -57,6 +58,7 @@ class Votings extends Migration
             $table->timestamps();
             $table->softDeletes();
 
+            $table->foreign('voting_id')->references('id')->on('votings')->onDelete('cascade');
             $table->foreign('legislator_id')->references('id')->on('legislators')->onDelete('cascade');
             $table->foreign('party_id')->references('id')->on('parties')->onDelete('cascade');
             $table->foreign('region_id')->references('id')->on('regions')->onDelete('cascade');
@@ -70,8 +72,10 @@ class Votings extends Migration
      */
     public function down()
     {
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('votings_records');
-        Schema::dropIfExists('votings_details');
+        Schema::dropIfExists('votings_votes');
         Schema::dropIfExists('votings');
+        Schema::enableForeignKeyConstraints();
     }
 }

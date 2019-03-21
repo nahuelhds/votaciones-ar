@@ -52,8 +52,10 @@ class Entities extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('legislators');
-        Schema::dropIfExists('parties');
+        Schema::disableForeignKeyConstraints();
         Schema::dropIfExists('regions');
+        Schema::dropIfExists('parties');
+        Schema::dropIfExists('legislators');
+        Schema::enableForeignKeyConstraints();
     }
 }
