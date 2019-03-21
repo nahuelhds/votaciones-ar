@@ -10,4 +10,10 @@ class VotingRecord extends Model
     use SoftDeletes;
 
     protected $table = 'votings_records';
+
+    protected $fillable = [
+        'voting_id',
+        'title',
+        'original_id'
+    ];
 }

@@ -10,4 +10,9 @@ class Voting extends Model
     use SoftDeletes;
 
     protected $dates = ['voted_at'];
+
+    protected $fillable = [
+        'chamber',
+        'voted_at'
+    ];
 }

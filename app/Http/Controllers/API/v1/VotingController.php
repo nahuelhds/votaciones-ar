@@ -33,10 +33,9 @@ class VotingController extends Controller
      */
     public function store(Request $request)
     {
-        $voting = new Voting();
+        $votedAt = Carbon::parse($request->voted_at);
+        $voting = Voting::firstOrNew(['chamber' => $request->chamber, 'voted_at' => $votedAt]);
 
-        $voting->chamber = $request->chamber;
-        $voting->voted_at = Carbon::parse($request->voted_at);
         $voting->period = $request->period;
         $voting->meeting = $request->meeting;
         $voting->record = $request->record;
@@ -50,14 +49,12 @@ class VotingController extends Controller
         $voting->save();
 
         if ($request->has('records')) {
-            foreach ($request->records as $reqRecord) {
-                $record = new VotingRecord();
-
-                $record->voting_id = $voting->id;
-                $record->title = $reqRecord['title'];
-                $record->original_id = $reqRecord['original_id'];
-
-                $record->save();
+            foreach ($request->records as $record) {
+                VotingRecord::firstOrCreate([
+                    'voting_id' => $voting->id,
+                    'title' => $record['title'],
+                    'original_id' => $record['original_id'],
+                ]);
             }
         }
 
