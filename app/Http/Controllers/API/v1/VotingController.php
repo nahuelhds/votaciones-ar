@@ -2,13 +2,17 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use App\Voting;
-use App\VotingRecord;
-use App\Http\Resources\VotingCollection;
-
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Carbon;
+
+use App\Voting;
+use App\Http\Resources\VotingCollection;
+use App\VotingRecord;
+use App\Legislator;
+use App\Region;
+use App\Party;
+use App\VotingDetail;
 
 class VotingController extends Controller
 {
@@ -57,6 +61,51 @@ class VotingController extends Controller
                     'voting_id' => $voting->id,
                     'title' => $record['title'],
                     'original_id' => $record['original_id'],
+                ]);
+            }
+        }
+
+        if ($request->has('detailsCsv')) {
+            $detailsCsv = $request->detailsCsv;
+            $rows = str_getcsv($detailsCsv, "\n");
+            array_shift($rows);
+            foreach ($rows as $row) {
+                $columns = str_getcsv($row);
+                $region = Region::firstOrCreate([
+                    'name' => $columns[3],
+                ]);
+                $party = Party::firstOrCreate([
+                    'name' => $columns[2],
+                ]);
+                $legislator = Legislator::firstOrNew([
+                    'name' => $columns[1],
+                    'last_name' => $columns[0]
+                ]);
+
+                $legislator->type = Legislator::TYPE_DEPUTY;
+                $legislator->party_id = $party->id;
+                $legislator->region_id = $region->id;
+                $legislator->save();
+
+                switch ($columns[4]) {
+                    case 'AFIRMATIVO':
+                        $vote = VotingDetail::VOTE_AFFIRMATIVE;
+                        break;
+                    case 'NEGATIVO':
+                        $vote = VotingDetail::VOTE_NEGATIVE;
+                        break;
+                    case 'ABSTENCION':
+                        $vote = VotingDetail::VOTE_ABSTENTION;
+                        break;
+                    default:
+                        $vote = null;
+                }
+
+                VotingDetail::firstOrCreate([
+                    'legislator_id' => $legislator->id,
+                    'party_id' => $party->id,
+                    'region_id' => $region->id,
+                    'vote' => $vote,
                 ]);
             }
         }

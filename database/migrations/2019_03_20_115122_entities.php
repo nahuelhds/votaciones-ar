@@ -33,7 +33,6 @@ class Entities extends Migration
             $table->bigIncrements('id');
             $table->string('name');
             $table->string('last_name');
-            $table->string('full_name');
             $table->enum('type', ['deputy', 'senator']); // si es diputado o senador
             $table->unsignedBigInteger('party_id'); // bloque actual
             $table->unsignedBigInteger('region_id'); // provincia actual

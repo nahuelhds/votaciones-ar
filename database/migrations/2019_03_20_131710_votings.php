@@ -20,7 +20,7 @@ class Votings extends Migration
             $table->integer('period')->nullable();
             $table->integer('meeting')->nullable();
             $table->integer('record')->nullable();
-            $table->string('title');
+            $table->text('title');
             $table->string('type');
             $table->unsignedBigInteger('president_id')->nullable(); // presidente de la sesion
             $table->boolean('result');
@@ -36,7 +36,7 @@ class Votings extends Migration
         Schema::create('votings_records', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('voting_id');
-            $table->string('title');
+            $table->text('title');
             $table->string('original_id')->nullable(); // id
 
             $table->timestamps();
@@ -47,11 +47,11 @@ class Votings extends Migration
 
         Schema::create('votings_details', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->unsignedBigInteger('legislator_id');
             $table->enum('type', ['deputy', 'senator']); // al momento en que voto
+            $table->unsignedBigInteger('legislator_id');
             $table->unsignedBigInteger('party_id'); // al momento en que voto
             $table->unsignedBigInteger('region_id'); // al momento en que voto
-            $table->enum('vote', ['afirmative', 'negative', 'abstention'])->nullable(); // null => ausente
+            $table->enum('vote', ['affirmative', 'negative', 'abstention'])->nullable(); // null => ausente
             $table->string('speech_url')->nullable();
 
             $table->timestamps();
