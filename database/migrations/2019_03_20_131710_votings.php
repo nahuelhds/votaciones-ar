@@ -17,15 +17,15 @@ class Votings extends Migration
             $table->bigIncrements('id');
             $table->enum('chamber', ['deputies', 'senators']);
             $table->timestamp('voted_at')->nullable(); // date
-            $table->integer('period');
-            $table->integer('meeting');
-            $table->integer('record');
+            $table->integer('period')->nullable();
+            $table->integer('meeting')->nullable();
+            $table->integer('record')->nullable();
             $table->string('title');
             $table->string('type');
-            $table->unsignedBigInteger('president_id'); // presidente de la sesion
+            $table->unsignedBigInteger('president_id')->nullable(); // presidente de la sesion
             $table->boolean('result');
-            $table->string('source_url'); // url
-            $table->string('original_id'); // id
+            $table->string('source_url')->nullable(); // url
+            $table->string('original_id')->nullable(); // id
 
             $table->timestamps();
             $table->softDeletes();
@@ -37,7 +37,7 @@ class Votings extends Migration
             $table->bigIncrements('id');
             $table->unsignedBigInteger('voting_id');
             $table->string('title');
-            $table->string('original_id'); // id
+            $table->string('original_id')->nullable(); // id
 
             $table->timestamps();
             $table->softDeletes();

@@ -31,5 +31,9 @@ class ApiToken extends Migration
         Schema::table('users', function ($table) {
             $table->dropColumn('api_token');
         });
+
+        Schema::disableForeignKeyConstraints();
+        DB::table('users')->truncate();
+        Schema::enableForeignKeyConstraints();
     }
 }
