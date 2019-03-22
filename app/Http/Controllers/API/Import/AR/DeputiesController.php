@@ -38,7 +38,7 @@ class DeputiesController extends Controller
             // "record" => $request->record,
             // "president_id" => $request->president_id,
             "result" => $request->result === 'EMPATE' ? null : $request->result === "AFIRMATIVO",
-            "source_url" => self::VOTINGS_URI . $request->votingUrl,
+            "source_url" => self::VOTINGS_URI . $request->url,
             "original_id" => $request->id,
         ]);
 
