@@ -11,6 +11,9 @@ class Voting extends Model
 {
     use SoftDeletes;
 
+    const CHAMBER_DEPUTIES = 'deputies';
+    const CHAMBER_SENATORS = 'senators';
+
     const RESULT_AFFIRMATIVE = true;
     const RESULT_NEGATIVE = false;
     const RESULT_DRAW = null;
@@ -21,6 +24,10 @@ class Voting extends Model
         'chamber',
         'voted_at',
         'title'
+    ];
+
+    protected $casts = [
+        'result' => 'boolean'
     ];
 
     public function records()
