@@ -2,12 +2,22 @@
 
 namespace App\Http\Controllers\API\Import\AR;
 
-use App\Voting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use App\Http\Controllers\Controller;
+
+use App\Voting;
+use App\VotingRecord;
+use App\Region;
+use App\Party;
+use App\Legislator;
+use App\VotingVote;
 
 class DeputiesController extends Controller
 {
+
+    const VOTINGS_URI = 'https://votaciones.hcdn.gob.ar';
+
     /**
      * Import a voting, or edit it if already exists
      *
@@ -16,23 +26,21 @@ class DeputiesController extends Controller
      */
     public function voting(Request $request)
     {
-        $votedAt = Carbon::parse($request->voted_at);
-        $voting = Voting::firstOrNew([
-            'chamber' => $request->chamber,
+        $votedAt = Carbon::parse((int)$request->date);
+        $voting = Voting::firstOrCreate([
+            'chamber' => Voting::CHAMBER_DEPUTIES,
             'voted_at' => $votedAt,
             'title' => $request->title
+        ], [
+            "type" => $request->type,
+            // "period" => $request->period,
+            // "meeting" => $request->meeting,
+            // "record" => $request->record,
+            // "president_id" => $request->president_id,
+            "result" => $request->result === 'EMPATE' ? null : $request->result === "AFIRMATIVO",
+            "source_url" => self::VOTINGS_URI . $request->electionUrl,
+            "original_id" => $request->id,
         ]);
-
-        $voting->period = $request->period;
-        $voting->meeting = $request->meeting;
-        $voting->record = $request->record;
-        $voting->type = $request->type;
-        $voting->president_id = $request->president_id;
-        $voting->result = $request->result;
-        $voting->source_url = $request->source_url;
-        $voting->original_id = $request->original_id;
-
-        $voting->save();
 
         return $voting;
     }
@@ -46,13 +54,17 @@ class DeputiesController extends Controller
      */
     public function records(Request $request, Voting $voting)
     {
-        foreach ($request->records as $record) {
-            VotingRecord::firstOrCreate([
+        $content = json_decode($request->getContent());
+        $records = [];
+        foreach ($content as $record) {
+            $records[] = VotingRecord::firstOrCreate([
                 'voting_id' => $voting->id,
-                'title' => $record['title'],
-                'original_id' => $record['original_id'],
+                'title' => $record->title,
+                'original_id' => $record->id
             ]);
         }
+
+        return $records;
     }
 
     /**
@@ -64,9 +76,11 @@ class DeputiesController extends Controller
      */
     public function votes(Request $request, Voting $voting)
     {
-        $votesCsv = $request->votesCsv;
-        $rows = str_getcsv($votesCsv, "\n");
+        $content = json_decode($request->getContent());
+        $rows = str_getcsv($content, "\n");
         array_shift($rows);
+
+        $votes = [];
         foreach ($rows as $row) {
             $columns = str_getcsv($row);
             $region = Region::firstOrCreate([
@@ -75,15 +89,14 @@ class DeputiesController extends Controller
             $party = Party::firstOrCreate([
                 'name' => trim($columns[2]),
             ]);
-            $legislator = Legislator::firstOrNew([
+            $legislator = Legislator::firstOrCreate([
                 'name' => trim($columns[1]),
                 'last_name' => trim($columns[0])
+            ], [
+                "type" => Legislator::TYPE_DEPUTY,
+                "party_id" => $party->id,
+                "region_id" => $region->id,
             ]);
-
-            $legislator->type = Legislator::TYPE_DEPUTY;
-            $legislator->party_id = $party->id;
-            $legislator->region_id = $region->id;
-            $legislator->save();
 
             switch ($columns[4]) {
                 case 'AFIRMATIVO':
@@ -96,10 +109,10 @@ class DeputiesController extends Controller
                     $vote = VotingVote::VOTE_ABSTENTION;
                     break;
                 default:
-                    $vote = null;
+                    $vote = VotingVote::VOTE_ABSENT;
             }
 
-            VotingVote::firstOrCreate([
+            $votes[] = VotingVote::firstOrCreate([
                 'voting_id' => $voting->id,
                 'legislator_id' => $legislator->id,
                 'party_id' => $party->id,
@@ -107,5 +120,7 @@ class DeputiesController extends Controller
                 'vote' => $vote,
             ]);
         }
+
+        return $votes;
     }
 }

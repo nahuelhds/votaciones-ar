@@ -15,4 +15,12 @@ Route::middleware('auth:api')->namespace('API')->group(function () {
     Route::prefix('v1')->namespace('v1')->group(function () {
         Route::apiResource('voting', 'VotingController');
     });
+
+    Route::prefix('import/ar')->namespace('Import\AR')->group(function () {
+        Route::prefix('deputies')->group(function () {
+            Route::post('voting', 'DeputiesController@voting');
+            Route::post('voting/{voting}/records', 'DeputiesController@records');
+            Route::post('voting/{voting}/votes', 'DeputiesController@votes');
+        });
+    });
 });
