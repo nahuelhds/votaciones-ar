@@ -26,21 +26,36 @@ class DeputiesController extends Controller
      */
     public function voting(Request $request)
     {
-        $votedAt = Carbon::parse((int)$request->date);
-        $voting = Voting::firstOrCreate([
+        $voting = Voting::firstOrNew([
             'chamber' => Voting::CHAMBER_DEPUTIES,
-            'voted_at' => $votedAt,
+            'voted_at' => Carbon::parse((int)$request->date),
             'title' => $request->title
         ], [
             "type" => $request->type,
-            // "period" => $request->period,
-            // "meeting" => $request->meeting,
-            // "record" => $request->record,
-            // "president_id" => $request->president_id,
             "result" => $request->result === 'EMPATE' ? null : $request->result === "AFIRMATIVO",
             "source_url" => self::VOTINGS_URI . $request->url,
             "original_id" => $request->id,
         ]);
+
+        $president = explode(", ", $request->president);
+        $legislator = Legislator::firstOrCreate([
+            'name' => trim($president[1]),
+            'last_name' => trim($president[0])
+        ], [
+            "type" => Legislator::TYPE_DEPUTY,
+        ]);
+
+        $voting->period = (int)$request->period;
+        $voting->meeting = (int)$request->meeting;
+        $voting->record = (int)$request->record;
+        $voting->president_id = $legislator->id;
+        $voting->affirmative_count = (int)$request->affirmativeCount;
+        $voting->negative_count = (int)$request->negativeCount;
+        $voting->abstention_count = (int)$request->abstentionCount;
+        $voting->absent_count = (int)$request->absentCount;
+        $voting->document_url = $request->documentUrl;
+
+        $voting->save();
 
         return $voting;
     }
