@@ -30,11 +30,6 @@ class DeputiesController extends Controller
             'chamber' => Voting::CHAMBER_DEPUTIES,
             'voted_at' => Carbon::parse((int)$request->date),
             'title' => $request->title
-        ], [
-            "type" => $request->type,
-            "result" => $request->result === 'EMPATE' ? null : $request->result === "AFIRMATIVO",
-            "source_url" => self::VOTINGS_URI . $request->url,
-            "original_id" => $request->id,
         ]);
 
         $president = explode(", ", $request->president);
@@ -45,6 +40,10 @@ class DeputiesController extends Controller
             "type" => Legislator::TYPE_DEPUTY,
         ]);
 
+        $voting->type = $request->type;
+        $voting->result = $request->result === 'EMPATE' ? null : $request->result === "AFIRMATIVO";
+        $voting->source_url = self::VOTINGS_URI . $request->url;
+        $voting->original_id = $request->id;
         $voting->period = (int)$request->period;
         $voting->meeting = (int)$request->meeting;
         $voting->record = (int)$request->record;
@@ -107,10 +106,9 @@ class DeputiesController extends Controller
             $legislator = Legislator::firstOrNew([
                 'name' => trim($columns[1]),
                 'last_name' => trim($columns[0])
-            ], [
-                "type" => Legislator::TYPE_DEPUTY,
             ]);
 
+            $legislator->type = Legislator::TYPE_DEPUTY;
             $legislator->party_id = $party->id;
             $legislator->region_id = $region->id;
             $legislator->save();
