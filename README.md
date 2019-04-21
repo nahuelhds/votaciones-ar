@@ -22,7 +22,7 @@ Por diversión, porque sí a los [Datos Abiertos](https://es.wikipedia.org/wiki/
 
 ## Colaboraciones
 
-El repositorio está abierto a recibir colaboraciones. Por ejemplo, subir esta misma información en otro formato de utilidad. Lo ideal sería hacerlo a través de un PR (Pull Request), aunque se pueden contactar conmigo para ver otras formas de recibir sus colaboraciones.
+Si te interesa colaborar, contactate conmigo a través de [mi cuenta en Twitter](http://medium.com/@nahuelhds).
 
 # nahuelhds
 
