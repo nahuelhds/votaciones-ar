@@ -4,19 +4,20 @@ namespace App\Http\Controllers\API\v1;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use App\Legislator;
-use App\Http\Resources\LegislatorCollection;
 
-class LegislatorController extends Controller
+use App\Voting;
+use App\VotingVote;
+
+class VotingsVotesController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Voting $voting)
     {
-        return new LegislatorCollection(Legislator::paginate());
+        return $voting->votes;
     }
 
     /**
@@ -33,12 +34,12 @@ class LegislatorController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param \App\Legislator  $id
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Legislator $legislator)
+    public function show(Voting $voting, VotingVote $vote)
     {
-        return $legislator;
+        return $voting->vote($vote)->firstOrFail();
     }
 
     /**

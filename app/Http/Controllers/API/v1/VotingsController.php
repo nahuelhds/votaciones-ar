@@ -8,13 +8,8 @@ use Illuminate\Support\Carbon;
 
 use App\Voting;
 use App\Http\Resources\VotingCollection;
-use App\VotingRecord;
-use App\Legislator;
-use App\Region;
-use App\Party;
-use App\VotingVote;
 
-class VotingController extends Controller
+class VotingsController extends Controller
 {
     /**
      * Display a listing of the resource.

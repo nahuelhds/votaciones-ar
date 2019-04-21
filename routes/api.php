@@ -15,8 +15,9 @@ Route::namespace('API')->group(function () {
     Route::middleware('auth:api')->group(function () {
         Route::prefix('v1')->namespace('v1')->group(function () {
             Route::apiResources([
-                'legislator' => 'LegislatorController',
-                'voting' => 'VotingController',
+                'legislators' => 'LegislatorsController',
+                'votings' => 'VotingsController',
+                'votings/{voting}/votes' => 'VotingsVotesController'
             ]);
         });
 

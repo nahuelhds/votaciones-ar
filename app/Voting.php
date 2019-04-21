@@ -35,8 +35,25 @@ class Voting extends Model
         return $this->hasMany(VotingRecord::class);
     }
 
+    /**
+     * Get all the votes from this voting
+     *
+     * @param VotingVote $vote
+     * @return VotingVote
+     */
     public function votes()
     {
         return $this->hasMany(VotingVote::class);
+    }
+
+    /**
+     * Get the $vote if it belongs to this voting only
+     *
+     * @param VotingVote $vote
+     * @return VotingVote
+     */
+    public function vote(VotingVote $vote)
+    {
+        return $this->hasMany(VotingVote::class)->where('id', $vote->id);
     }
 }
