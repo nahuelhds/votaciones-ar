@@ -29,5 +29,16 @@ Route::namespace('API')->group(function () {
                 Route::post('voting/{voting}/votes', 'DeputiesController@votes');
             });
         });
+
+        Route::prefix('export/ar')->namespace('Export\AR')->group(function () {
+            Route::prefix('deputies')->group(function () {
+                Route::get('legislators', 'DeputiesController@legislators');
+                Route::get('parties', 'DeputiesController@parties');
+                Route::get('regions', 'DeputiesController@regions');
+                Route::get('votings', 'DeputiesController@votings');
+                Route::get('votings_records', 'DeputiesController@votingsRecords');
+                Route::get('votings_votes', 'DeputiesController@votingsVotes');
+            });
+        });
     });
 });
