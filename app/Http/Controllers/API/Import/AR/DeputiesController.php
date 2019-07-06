@@ -28,9 +28,11 @@ class DeputiesController extends Controller
     {
         $voting = Voting::firstOrNew([
             'chamber' => Voting::CHAMBER_DEPUTIES,
-            'voted_at' => Carbon::parse((int)$request->date),
-            'title' => $request->title
+            'original_id' => $request->id,
         ]);
+
+        $voting->voted_at = Carbon::parse("$request->date 00:00:00"); // Y-m-d
+        $voting->title = $request->title;
 
         $president = explode(", ", $request->president);
         $legislator = Legislator::firstOrCreate([
@@ -41,18 +43,22 @@ class DeputiesController extends Controller
         ]);
 
         $voting->type = $request->type;
+        $voting->result_raw = $request->result;
         $voting->result = $request->result === 'EMPATE' ? null : $request->result === "AFIRMATIVO";
+
         $voting->source_url = self::VOTINGS_URI . $request->url;
-        $voting->original_id = $request->id;
+        $voting->document_url = $request->documentUrl;
+
         $voting->period = (int)$request->period;
         $voting->meeting = (int)$request->meeting;
         $voting->record = (int)$request->record;
+
         $voting->president_id = $legislator->id;
+
         $voting->affirmative_count = (int)$request->affirmativeCount;
         $voting->negative_count = (int)$request->negativeCount;
         $voting->abstention_count = (int)$request->abstentionCount;
         $voting->absent_count = (int)$request->absentCount;
-        $voting->document_url = $request->documentUrl;
 
         $voting->save();
 

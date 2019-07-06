@@ -16,6 +16,7 @@ class Votings extends Migration
         Schema::create('votings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->enum('chamber', ['deputies', 'senators']);
+            $table->string('original_id')->nullable(); // id
             $table->timestamp('voted_at')->nullable(); // date
             $table->integer('period')->nullable();
             $table->integer('meeting')->nullable();
@@ -25,7 +26,6 @@ class Votings extends Migration
             $table->unsignedBigInteger('president_id')->nullable(); // presidente de la sesion
             $table->boolean('result')->nullable();
             $table->string('source_url')->nullable(); // url
-            $table->string('original_id')->nullable(); // id
 
             $table->timestamps();
             $table->softDeletes();
