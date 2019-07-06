@@ -28,6 +28,10 @@ Route::namespace('API')->group(function () {
                 Route::post('voting/{voting}/records', 'DeputiesController@records');
                 Route::post('voting/{voting}/votes', 'DeputiesController@votes');
             });
+
+            Route::prefix('senators')->group(function () {
+                Route::post('voting', 'SenatorsController@voting');
+            });
         });
 
         Route::prefix('export/ar')->namespace('Export\AR')->group(function () {

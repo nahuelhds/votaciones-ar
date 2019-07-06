@@ -43,6 +43,7 @@ class SenatorsController extends Controller
             case "NEGATIVO":
                 $voting->result = false;
                 break;
+            case "EMPATE":
             case "LEV. VOT.":
                 $voting->result = null;
                 break;
