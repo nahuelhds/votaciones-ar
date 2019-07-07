@@ -31,6 +31,7 @@ Route::namespace('API')->group(function () {
 
             Route::prefix('senators')->group(function () {
                 Route::post('voting', 'SenatorsController@voting');
+                Route::post('voting/{voting}/votes', 'DeputiesController@votes');
             });
         });
 

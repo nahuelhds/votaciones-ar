@@ -21,7 +21,7 @@ class Votings extends Migration
             $table->integer('period')->nullable();
             $table->integer('meeting')->nullable();
             $table->integer('record')->nullable();
-            $table->text('title');
+            $table->text('title')->nullable();
             $table->string('type');
             $table->unsignedBigInteger('president_id')->nullable(); // presidente de la sesion
             $table->boolean('result')->nullable();

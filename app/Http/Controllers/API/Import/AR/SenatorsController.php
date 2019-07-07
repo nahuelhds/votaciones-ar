@@ -97,54 +97,54 @@ class SenatorsController extends Controller
      * @param  \App\Voting  $voting
      * @return \Illuminate\Http\Response
      */
-    // public function votes(Request $request, Voting $voting)
-    // {
-    //     $content = json_decode($request->getContent());
-    //     $rows = str_getcsv($content, "\n");
-    //     array_shift($rows);
+    public function votes(Request $request, Voting $voting)
+    {
+        $content = json_decode($request->getContent());
+        $rows = str_getcsv($content, "\n");
+        array_shift($rows);
 
-    //     $votes = [];
-    //     foreach ($rows as $row) {
-    //         $columns = str_getcsv($row);
-    //         $region = Region::firstOrCreate([
-    //             'name' => trim($columns[3]),
-    //         ]);
-    //         $party = Party::firstOrCreate([
-    //             'name' => trim($columns[2]),
-    //         ]);
-    //         $legislator = Legislator::firstOrNew([
-    //             'name' => trim($columns[1]),
-    //             'last_name' => trim($columns[0])
-    //         ]);
+        $votes = [];
+        foreach ($rows as $row) {
+            $columns = str_getcsv($row);
+            $region = Region::firstOrCreate([
+                'name' => trim($columns[3]),
+            ]);
+            $party = Party::firstOrCreate([
+                'name' => trim($columns[2]),
+            ]);
+            $legislator = Legislator::firstOrNew([
+                'name' => trim($columns[1]),
+                'last_name' => trim($columns[0])
+            ]);
 
-    //         $legislator->type = Legislator::TYPE_DEPUTY;
-    //         $legislator->party_id = $party->id;
-    //         $legislator->region_id = $region->id;
-    //         $legislator->save();
+            $legislator->type = Legislator::TYPE_DEPUTY;
+            $legislator->party_id = $party->id;
+            $legislator->region_id = $region->id;
+            $legislator->save();
 
-    //         switch ($columns[4]) {
-    //             case 'AFIRMATIVO':
-    //                 $vote = VotingVote::VOTE_AFFIRMATIVE;
-    //                 break;
-    //             case 'NEGATIVO':
-    //                 $vote = VotingVote::VOTE_NEGATIVE;
-    //                 break;
-    //             case 'ABSTENCION':
-    //                 $vote = VotingVote::VOTE_ABSTENTION;
-    //                 break;
-    //             default:
-    //                 $vote = VotingVote::VOTE_ABSENT;
-    //         }
+            switch ($columns[4]) {
+                case 'AFIRMATIVO':
+                    $vote = VotingVote::VOTE_AFFIRMATIVE;
+                    break;
+                case 'NEGATIVO':
+                    $vote = VotingVote::VOTE_NEGATIVE;
+                    break;
+                case 'ABSTENCION':
+                    $vote = VotingVote::VOTE_ABSTENTION;
+                    break;
+                default:
+                    $vote = VotingVote::VOTE_ABSENT;
+            }
 
-    //         $votes[] = VotingVote::firstOrCreate([
-    //             'voting_id' => $voting->id,
-    //             'legislator_id' => $legislator->id,
-    //             'party_id' => $party->id,
-    //             'region_id' => $region->id,
-    //             'vote' => $vote,
-    //         ]);
-    //     }
+            $votes[] = VotingVote::firstOrCreate([
+                'voting_id' => $voting->id,
+                'legislator_id' => $legislator->id,
+                'party_id' => $party->id,
+                'region_id' => $region->id,
+                'vote' => $vote,
+            ]);
+        }
 
-    //     return $votes;
-    // }
+        return $votes;
+    }
 }
