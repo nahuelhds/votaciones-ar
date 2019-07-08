@@ -31,29 +31,64 @@ class DeputiesController extends Controller
             'original_id' => $request->id,
         ]);
 
-        $voting->voted_at = Carbon::parse("$request->date 00:00:00"); // Y-m-d
+        $voting->voted_at = Carbon::parse($request->date); // Y-m-d
         $voting->title = $request->title;
 
-        $president = explode(", ", $request->president);
-        $legislator = Legislator::firstOrCreate([
-            'name' => trim($president[1]),
-            'last_name' => trim($president[0])
-        ], [
-            "type" => Legislator::TYPE_DEPUTY,
+        // PRESIDENTE DE LA SESION
+        $names = explode(", ", $request->president);
+        $legislator = Legislator::firstOrNew([
+            'name' => trim($names[1]),
+            'last_name' => trim($names[0])
         ]);
 
+        // Si es un nuevo legislador, lo registro
+        if (!$legislator->id) {
+            $legislator->type = Legislator::TYPE_DEPUTY;
+            $legislator->save();
+        }
+
+        // Actualizo posibles fechas de primera y/o última actividad
+        if (is_null($legislator->first_activity_at) || $legislator->first_activity_at > $voting->voted_at) {
+            $legislator->first_activity_at = $voting->voted_at;
+            $legislator->save();
+        }
+
+        if ($legislator->last_activity_at < $voting->voted_at) {
+            $legislator->last_activity_at = $voting->voted_at;
+            // En el caso de la ultima actividad, ademas actualizo
+            // los datos de partido y provincia
+            // ya que pudieron haber cambiado
+            $legislator->type = Legislator::TYPE_DEPUTY;
+            $legislator->save();
+        }
+
+        $voting->president_id = $legislator->id;
+
+        // TIPO DE VOTO
         $voting->type = $request->type;
         $voting->result_raw = $request->result;
-        $voting->result = $request->result === 'EMPATE' ? null : $request->result === "AFIRMATIVO";
+        switch ($voting->result_raw) {
+            case "AFIRMATIVO":
+                $voting->result = true;
+                break;
+            case "NEGATIVO":
+                $voting->result = false;
+                break;
+            case "EMPATE":
+                $voting->result = null;
+                break;
+            default:
+                // Desconocido
+                throw new \RuntimeException("Voting #$request->id - Uknown result type. Value: $request->result");
+        }
 
-        $voting->source_url = self::VOTINGS_URI . $request->url;
-        $voting->document_url = $request->documentUrl;
+        $voting->source_url = self::VOTINGS_URI . $request->detailsUrl;
+        $voting->document_url = $request->recordUrl;
+        $voting->video_url = $request->videoUrl;
 
         $voting->period = (int)$request->period;
         $voting->meeting = (int)$request->meeting;
         $voting->record = (int)$request->record;
-
-        $voting->president_id = $legislator->id;
 
         $voting->affirmative_count = (int)$request->affirmativeCount;
         $voting->negative_count = (int)$request->negativeCount;
