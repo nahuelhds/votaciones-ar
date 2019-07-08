@@ -164,15 +164,15 @@ class SenatorsController extends Controller
             'last_name' => trim($names[0])
         ]);
 
-        $legislator->type = Legislator::TYPE_SENATOR;
         // @TODO: ante el cambio de partido o provincia
         // registrarlo en el historial del legislador
 
         // Si es un nuevo legislador, lo registro
         if (!$legislator->id) {
+            $legislator->type = Legislator::TYPE_SENATOR;
+            $legislator->original_id = $voteData->legislatorId;
             $legislator->party_id = $party->id;
             $legislator->region_id = $region->id;
-            $legislator->original_id = $voteData->legislatorId;
             $legislator->profile_url = self::VOTINGS_URI . $voteData->profileUrl;
             $legislator->photo_url = self::VOTINGS_URI . $voteData->photoUrl;
             $legislator->save();
@@ -185,10 +185,15 @@ class SenatorsController extends Controller
         }
 
         if ($legislator->last_activity_at < $voting->voted_at) {
+            $legislator->last_activity_at = $voting->voted_at;
             // En el caso de la ultima actividad, ademas actualizo
             // los datos de partido y provincia
             // ya que pudieron haber cambiado
-            $legislator->last_activity_at = $voting->voted_at;
+            $legislator->type = Legislator::TYPE_SENATOR;
+            $legislator->party_id = $party->id;
+            $legislator->region_id = $region->id;
+            $legislator->profile_url = self::VOTINGS_URI . $voteData->profileUrl;
+            $legislator->photo_url = self::VOTINGS_URI . $voteData->photoUrl;
             $legislator->save();
         }
 
