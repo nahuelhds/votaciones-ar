@@ -16,7 +16,7 @@ class Votings extends Migration
         Schema::create('votings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->enum('chamber', ['deputies', 'senators']);
-            $table->string('original_id')->nullable(); // id
+            $table->bigInteger('original_id')->unsigned()->nullable(); // id
             $table->timestamp('voted_at')->nullable(); // date
             $table->integer('period')->nullable();
             $table->integer('meeting')->nullable();

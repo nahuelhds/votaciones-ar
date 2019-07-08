@@ -91,7 +91,25 @@ class SenatorsController extends Controller
     // }
 
     /**
-     * Import votes to $voting from a CSV string, or edit them if they already exist
+     * Import all votes from a $voting
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Voting  $voting
+     * @return \Illuminate\Http\Response
+     */
+    public function bulkVotes(Request $request, Voting $voting)
+    {
+        $votesData = json_decode($request->getContent());
+        $data = [];
+        foreach ($votesData as $voteData) {
+            $data[] = $this->parseVote($voteData, $voting);
+        }
+
+        return $data;
+    }
+
+    /**
+     * Import a vote from a $voting
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Voting  $voting
@@ -99,70 +117,107 @@ class SenatorsController extends Controller
      */
     public function votes(Request $request, Voting $voting)
     {
-        $votesRaw = json_decode($request->getContent());
-        $data = [];
-        foreach ($votesRaw as $voteRaw) {
-            $regionName = $voteRaw->region === "CIUDAD AUTÓNOMA de BUENOS AIRES" ? "C.A.B.A" : $voteRaw->region;
-            $region = Region::firstOrCreate([
-                'name' => trim($regionName),
-            ]);
-            $party = Party::firstOrCreate([
-                'name' => trim($voteRaw->party),
-            ]);
-            if ($party->last_activity_at < $voting->voted_at) {
-                $party->last_activity_at = $voting->voted_at;
-                $party->save();
-            }
+        return $this->parseVote($request, $voting);
+    }
 
-            $names = explode(",", $voteRaw->legislator);
-            $legislator = Legislator::firstOrNew([
-                'name' => trim($names[1]),
-                'last_name' => trim($names[0])
-            ]);
+    /**
+     * Create/update a vote from the given data
+     *
+     * @param \stdClass $voteData
+     * @param Voting $voting
+     * @return VotingVote
+     */
+    private function parseVote($voteData, Voting $voting)
+    {
+        switch ($voteData->region) {
+            case "CIUDAD AUTÓNOMA de BUENOS AIRES":
+                $regionName = "C.A.B.A.";
+                break;
+            case "TIERRA DEL FUEGO, ANTÁRTIDA E ISLAS DEL ATLÁNTICO SUR":
+                $regionName = "Tierra del Fuego";
+                break;
+            default:
+                $regionName = $voteData->region;
+        }
+        $region = Region::firstOrCreate([
+            'name' => trim($regionName),
+        ]);
+        $party = Party::firstOrCreate([
+            'name' => trim($voteData->party),
+        ]);
 
-            $legislator->type = Legislator::TYPE_SENATOR;
-            // Si la ultima actividad registrada es menor a la que estamos cargando
-            if ($legislator->last_activity_at < $voting->voted_at) {
-                // Quiere decir que estos datos son los últimos
-                $legislator->last_activity_at = $voting->voted_at;
-                $legislator->party_id = $party->id;
-                $legislator->region_id = $region->id;
-            }
-            $legislator->save();
-
-            switch ($voteRaw->vote) {
-                case 'AFIRMATIVO':
-                    $result = VotingVote::VOTE_AFFIRMATIVE;
-                    break;
-                case 'NEGATIVO':
-                    $result = VotingVote::VOTE_NEGATIVE;
-                    break;
-                case 'ABSTENCIÓN':
-                case 'ABSTENCION':
-                    $result = VotingVote::VOTE_ABSTENTION;
-                    break;
-                case 'AUSENTE':
-                default:
-                    $result = VotingVote::VOTE_ABSENT;
-            }
-
-            $vote = VotingVote::firstOrNew([
-                'voting_id' => $voting->id,
-                'legislator_id' => $legislator->id
-            ]);
-
-            $vote->party_id = $party->id;
-            $vote->region_id = $region->id;
-            $vote->vote = $result;
-            $vote->vote_raw = $voteRaw->vote;
-            $vote->profile_url = self::VOTINGS_URI . $voteRaw->profileUrl;
-            $vote->photo_url = self::VOTINGS_URI . $voteRaw->photoUrl;
-
-            $vote->save();
-
-            $data[] = $vote;
+        // Actualizo posibles fechas de primera y/o última actividad
+        if (is_null($party->first_activity_at) || $party->first_activity_at > $voting->voted_at) {
+            $party->first_activity_at = $voting->voted_at;
+            $party->save();
+        }
+        if ($party->last_activity_at < $voting->voted_at) {
+            $party->last_activity_at = $voting->voted_at;
+            $party->save();
         }
 
-        return $data;
+        $names = explode(",", $voteData->legislator);
+        $legislator = Legislator::firstOrNew([
+            'name' => trim($names[1]),
+            'last_name' => trim($names[0])
+        ]);
+
+        $legislator->type = Legislator::TYPE_SENATOR;
+        // @TODO: ante el cambio de partido o provincia
+        // registrarlo en el historial del legislador
+
+        // Si es un nuevo legislador, lo registro
+        if (!$legislator->id) {
+            $legislator->party_id = $party->id;
+            $legislator->region_id = $region->id;
+            $legislator->original_id = $voteData->legislatorId;
+            $legislator->profile_url = self::VOTINGS_URI . $voteData->profileUrl;
+            $legislator->photo_url = self::VOTINGS_URI . $voteData->photoUrl;
+            $legislator->save();
+        }
+
+        // Actualizo posibles fechas de primera y/o última actividad
+        if (is_null($legislator->first_activity_at) || $legislator->first_activity_at > $voting->voted_at) {
+            $legislator->first_activity_at = $voting->voted_at;
+            $legislator->save();
+        }
+
+        if ($legislator->last_activity_at < $voting->voted_at) {
+            // En el caso de la ultima actividad, ademas actualizo
+            // los datos de partido y provincia
+            // ya que pudieron haber cambiado
+            $legislator->last_activity_at = $voting->voted_at;
+            $legislator->save();
+        }
+
+        switch ($voteData->vote) {
+            case 'AFIRMATIVO':
+                $result = VotingVote::VOTE_AFFIRMATIVE;
+                break;
+            case 'NEGATIVO':
+                $result = VotingVote::VOTE_NEGATIVE;
+                break;
+            case 'ABSTENCIÓN':
+            case 'ABSTENCION':
+                $result = VotingVote::VOTE_ABSTENTION;
+                break;
+            case 'AUSENTE':
+            default:
+                $result = VotingVote::VOTE_ABSENT;
+        }
+
+        $vote = VotingVote::firstOrNew([
+            'voting_id' => $voting->id,
+            'legislator_id' => $legislator->id
+        ]);
+
+        $vote->party_id = $party->id;
+        $vote->region_id = $region->id;
+        $vote->vote = $result;
+        $vote->vote_raw = $voteData->vote;
+
+        $vote->save();
+
+        return $vote;
     }
 }
