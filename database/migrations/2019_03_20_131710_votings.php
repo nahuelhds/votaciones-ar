@@ -48,7 +48,6 @@ class Votings extends Migration
         Schema::create('votings_votes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->unsignedBigInteger('voting_id');
-            $table->enum('type', ['deputy', 'senator']); // al momento en que voto
             $table->unsignedBigInteger('legislator_id');
             $table->unsignedBigInteger('party_id'); // al momento en que voto
             $table->unsignedBigInteger('region_id'); // al momento en que voto
