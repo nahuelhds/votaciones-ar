@@ -22,8 +22,7 @@ class Voting extends Model
 
     protected $fillable = [
         'chamber',
-        'voted_at',
-        'title'
+        'original_id'
     ];
 
     protected $casts = [
