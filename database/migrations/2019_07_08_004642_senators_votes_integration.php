@@ -15,7 +15,7 @@ class SenatorsVotesIntegration extends Migration
     {
 
         Schema::table('votings_votes', function (Blueprint $table) {
-            $table->string('vote_raw')->default('AFIRMATIVO')->after('vote');
+            $table->string('vote_raw')->nullable()->after('vote');
         });
 
         Schema::table('legislators', function (Blueprint $table) {
