@@ -99,52 +99,70 @@ class SenatorsController extends Controller
      */
     public function votes(Request $request, Voting $voting)
     {
-        $content = json_decode($request->getContent());
-        $rows = str_getcsv($content, "\n");
-        array_shift($rows);
-
-        $votes = [];
-        foreach ($rows as $row) {
-            $columns = str_getcsv($row);
+        $votesRaw = json_decode($request->getContent());
+        $data = [];
+        foreach ($votesRaw as $voteRaw) {
+            $regionName = $voteRaw->region === "CIUDAD AUTÓNOMA de BUENOS AIRES" ? "C.A.B.A" : $voteRaw->region;
             $region = Region::firstOrCreate([
-                'name' => trim($columns[3]),
+                'name' => trim($regionName),
             ]);
             $party = Party::firstOrCreate([
-                'name' => trim($columns[2]),
+                'name' => trim($voteRaw->party),
             ]);
-            $legislator = Legislator::firstOrNew([
-                'name' => trim($columns[1]),
-                'last_name' => trim($columns[0])
-            ]);
-
-            $legislator->type = Legislator::TYPE_DEPUTY;
-            $legislator->party_id = $party->id;
-            $legislator->region_id = $region->id;
-            $legislator->save();
-
-            switch ($columns[4]) {
-                case 'AFIRMATIVO':
-                    $vote = VotingVote::VOTE_AFFIRMATIVE;
-                    break;
-                case 'NEGATIVO':
-                    $vote = VotingVote::VOTE_NEGATIVE;
-                    break;
-                case 'ABSTENCION':
-                    $vote = VotingVote::VOTE_ABSTENTION;
-                    break;
-                default:
-                    $vote = VotingVote::VOTE_ABSENT;
+            if ($party->last_activity_at < $voting->voted_at) {
+                $party->last_activity_at = $voting->voted_at;
+                $party->save();
             }
 
-            $votes[] = VotingVote::firstOrCreate([
-                'voting_id' => $voting->id,
-                'legislator_id' => $legislator->id,
-                'party_id' => $party->id,
-                'region_id' => $region->id,
-                'vote' => $vote,
+            $names = explode(",", $voteRaw->legislator);
+            $legislator = Legislator::firstOrNew([
+                'name' => trim($names[1]),
+                'last_name' => trim($names[0])
             ]);
+
+            $legislator->type = Legislator::TYPE_SENATOR;
+            // Si la ultima actividad registrada es menor a la que estamos cargando
+            if ($legislator->last_activity_at < $voting->voted_at) {
+                // Quiere decir que estos datos son los últimos
+                $legislator->last_activity_at = $voting->voted_at;
+                $legislator->party_id = $party->id;
+                $legislator->region_id = $region->id;
+            }
+            $legislator->save();
+
+            switch ($voteRaw->vote) {
+                case 'AFIRMATIVO':
+                    $result = VotingVote::VOTE_AFFIRMATIVE;
+                    break;
+                case 'NEGATIVO':
+                    $result = VotingVote::VOTE_NEGATIVE;
+                    break;
+                case 'ABSTENCIÓN':
+                case 'ABSTENCION':
+                    $result = VotingVote::VOTE_ABSTENTION;
+                    break;
+                case 'AUSENTE':
+                default:
+                    $result = VotingVote::VOTE_ABSENT;
+            }
+
+            $vote = VotingVote::firstOrNew([
+                'voting_id' => $voting->id,
+                'legislator_id' => $legislator->id
+            ]);
+
+            $vote->party_id = $party->id;
+            $vote->region_id = $region->id;
+            $vote->vote = $result;
+            $vote->vote_raw = $voteRaw->vote;
+            $vote->profile_url = self::VOTINGS_URI . $voteRaw->profileUrl;
+            $vote->photo_url = self::VOTINGS_URI . $voteRaw->photoUrl;
+
+            $vote->save();
+
+            $data[] = $vote;
         }
 
-        return $votes;
+        return $data;
     }
 }

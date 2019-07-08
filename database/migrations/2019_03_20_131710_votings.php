@@ -53,7 +53,7 @@ class Votings extends Migration
             $table->unsignedBigInteger('party_id'); // al momento en que voto
             $table->unsignedBigInteger('region_id'); // al momento en que voto
             $table->enum('vote', ['affirmative', 'negative', 'abstention'])->nullable(); // null => ausente
-            $table->string('speech_url')->nullable();
+            $table->string('video_url')->nullable();
 
             $table->timestamps();
             $table->softDeletes();
