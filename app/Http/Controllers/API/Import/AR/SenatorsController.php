@@ -117,7 +117,7 @@ class SenatorsController extends Controller
      * @param  \App\Voting  $voting
      * @return \Illuminate\Http\Response
      */
-    public function votes(Request $request, Voting $voting)
+    public function vote(Request $request, Voting $voting)
     {
         return $this->parseVote($request, $voting);
     }
