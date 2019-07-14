@@ -2,43 +2,35 @@
 
 namespace App\Http\Controllers\API\v1;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
-use App\Legislator;
-use App\Http\Resources\LegislatorCollection;
+use App\Region;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\Filter;
-use Illuminate\Http\Request;
+use App\Http\Resources\RegionCollection;
 
-class LegislatorsController extends Controller
+class RegionsController extends Controller
 {
     /**
-     * Lista todos los legisladores
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $resources = QueryBuilder::for(Legislator::class);
+        $resources = QueryBuilder::for(Region::class);
 
         // Filters
         $resources->allowedFilters([
             Filter::partial('name'),
-            Filter::partial('last_name'),
-            Filter::exact('type'),
-            Filter::exact('party_id'),
-            Filter::partial('profile_url'),
-            Filter::partial('photo_url'),
-            Filter::exact('original_id'),
         ]);
 
         // Relations
         $resources->allowedIncludes([
-            'party',
-            'region',
+            'legislators',
         ]);
 
-        return new LegislatorCollection($resources->paginate());
+        return new RegionCollection($resources->paginate());
     }
 
     /**
@@ -47,28 +39,27 @@ class LegislatorsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    // public function store(Request $request)
-    // {
-    //     //
-    // }
+    public function store(Request $request)
+    {
+        //
+    }
 
     /**
-     * Muestra el legislador con el ID especificado
+     * Display the specified resource.
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function show(Request $request)
     {
-        $resource = QueryBuilder::for(Legislator::class);
+        $resource = QueryBuilder::for(Region::class);
 
         // Relations
         $resource->allowedIncludes([
-            'party',
-            'region',
+            'legislators',
         ]);
 
-        return $resource->findOrFail($request->legislator);
+        return $resource->findOrFail($request->region);
     }
 
     /**
@@ -78,10 +69,10 @@ class LegislatorsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function update(Request $request, $id)
-    // {
-    //     //
-    // }
+    public function update(Request $request, $id)
+    {
+        //
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -89,8 +80,8 @@ class LegislatorsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    // public function destroy($id)
-    // {
-    //     //
-    // }
+    public function destroy($id)
+    {
+        //
+    }
 }

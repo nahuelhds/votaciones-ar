@@ -9,16 +9,52 @@ use App\Voting;
 use App\VotingVote;
 use App\Http\Resources\VotingVoteCollection;
 
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\Filter;
+
+
 class VotingsVotesController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Lista todos los votos de una votación
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index(int $votingId)
+    public function index(Request $request)
     {
-        return new VotingVoteCollection(VotingVote::where('voting_id', $votingId)->paginate());
+        $resources = QueryBuilder::for(VotingVote::class);
+
+        // Filters
+        $resources->allowedFilters([
+            Filter::exact('voting_id'),
+            Filter::exact('legislator_id'),
+            Filter::exact('party_id'),
+            Filter::exact('region_id'),
+            Filter::partial('vote'),
+            Filter::partial('vote_raw'),
+            Filter::partial('video_url'),
+        ]);
+
+        // Relations
+        $resources->allowedIncludes([
+            'voting',
+            'legislator',
+            'region',
+            'party'
+        ]);
+
+        // When comes from votings/{id}/votes...
+        if ((int) $request->voting > 0) {
+            $resources->where('voting_id', $request->voting);
+        }
+
+        // When comes from legislators/{id}/votes...
+        if ((int) $request->legislator > 0) {
+            $resources->where('legislator_id', $request->legislator);
+        }
+
+        return new VotingVoteCollection($resources->paginate());
     }
 
     /**
@@ -27,21 +63,42 @@ class VotingsVotesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    // public function store(Request $request)
+    // {
+    //     //
+    // }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function show(int $votingId, VotingVote $vote)
+    public function show(Request $request)
     {
-        return $vote->where('voting_id', $votingId)->firstOrFail();
+        $resource = QueryBuilder::for(VotingVote::class);
+
+        // Relations
+        $resource->allowedIncludes([
+            'voting',
+            'legislator',
+            'region',
+            'party'
+        ]);
+
+        // When comes from votings/{id}/votes...
+        if ((int) $request->voting > 0) {
+            $resource->where('voting_id', $request->voting);
+        }
+
+        // When comes from legislators/{id}/votes...
+        if ((int) $request->legislator > 0) {
+            $resource->where('legislator_id', $request->legislator);
+        }
+
+        return $resource->findOrFail($request->vote);
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -50,10 +107,10 @@ class VotingsVotesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+    // public function update(Request $request, $id)
+    // {
+    //     //
+    // }
 
     /**
      * Remove the specified resource from storage.
@@ -61,8 +118,8 @@ class VotingsVotesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
-    }
+    // public function destroy($id)
+    // {
+    //     //
+    // }
 }

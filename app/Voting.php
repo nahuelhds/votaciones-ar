@@ -44,15 +44,4 @@ class Voting extends Model
     {
         return $this->hasMany(VotingVote::class);
     }
-
-    /**
-     * Get the $vote if it belongs to this voting only
-     *
-     * @param VotingVote $vote
-     * @return VotingVote
-     */
-    public function vote(VotingVote $vote)
-    {
-        return $this->hasMany(VotingVote::class)->where('id', $vote->id);
-    }
 }

@@ -20,4 +20,24 @@ class VotingVote extends Model
         'voting_id',
         'legislator_id',
     ];
+
+    public function voting()
+    {
+        return $this->belongsTo(Voting::class);
+    }
+
+    public function legislator()
+    {
+        return $this->belongsTo(Legislator::class);
+    }
+
+    public function party()
+    {
+        return $this->belongsTo(Party::class);
+    }
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class);
+    }
 }

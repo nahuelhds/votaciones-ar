@@ -2,22 +2,36 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Party;
 use App\Http\Resources\PartyCollection;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\Filter;
+use Illuminate\Http\Request;
 
 class PartiesController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Lista todos los partidos políticos
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return new PartyCollection(Party::paginate());
+        $resources = QueryBuilder::for(Party::class);
+
+        // Filters
+        $resources->allowedFilters([
+            Filter::partial('name'),
+        ]);
+
+        // Relations
+        $resources->allowedIncludes([
+            'legislators',
+        ]);
+
+        return new PartyCollection($resources->paginate());
     }
 
     /**
@@ -32,14 +46,21 @@ class PartiesController extends Controller
     // }
 
     /**
-     * Display the specified resource.
+     * Lista el partidos político con el ID especificado
      *
-     * @param  App\Party  $party
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function show(Party $party)
+    public function show(Request $request)
     {
-        return $party;
+        $resource = QueryBuilder::for(Party::class);
+
+        // Relations
+        $resource->allowedIncludes([
+            'legislators',
+        ]);
+
+        return $resource->findOrFail($request->party);
     }
 
     /**

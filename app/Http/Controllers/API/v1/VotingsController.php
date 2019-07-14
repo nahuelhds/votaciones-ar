@@ -2,23 +2,49 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Support\Carbon;
 
 use App\Voting;
 use App\Http\Resources\VotingCollection;
 
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\Filter;
+use Illuminate\Http\Request;
+
 class VotingsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Lista todas las votaciones
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return new VotingCollection(Voting::paginate());
+        $resources = QueryBuilder::for(Voting::class);
+
+        // Filters
+        $resources->allowedFilters([
+            Filter::exact('chamber'),
+            Filter::exact('original_id'),
+            Filter::exact('period'),
+            Filter::exact('meeting'),
+            Filter::exact('record'),
+            Filter::exact('president_id'),
+            Filter::partial('title'),
+            Filter::partial('type'),
+            Filter::exact('result'),
+            Filter::partial('result_raw'),
+            Filter::partial('document_url'),
+            Filter::partial('file_url'),
+            Filter::partial('source_url'),
+        ]);
+
+        // Relations
+        $resources->allowedIncludes([
+            'records',
+        ]);
+
+        return new VotingCollection($resources->paginate());
     }
 
     /**
@@ -46,14 +72,21 @@ class VotingsController extends Controller
     // }
 
     /**
-     * Display the specified resource.
+     * Lista la votación con el ID especificado
      *
-     * @param  \App\Voting  $voting
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function show(Voting $voting)
+    public function show(Request $request)
     {
-        return $voting;
+        $resource = QueryBuilder::for(Voting::class);
+
+        // Relations
+        $resource->allowedIncludes([
+            'records',
+        ]);
+
+        return $resource->findOrFail($request->voting);
     }
 
     /**

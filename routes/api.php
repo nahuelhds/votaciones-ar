@@ -16,9 +16,12 @@ Route::namespace('API')->group(function () {
         Route::prefix('v1')->namespace('v1')->group(function () {
             Route::apiResources([
                 'legislators' => 'LegislatorsController',
+                'legislators/{legislator}/votes' => 'VotingsVotesController',
                 'parties' => 'PartiesController',
+                'regions' => 'RegionsController',
                 'votings' => 'VotingsController',
-                'votings/{voting}/votes' => 'VotingsVotesController'
+                'votings/{voting}/votes' => 'VotingsVotesController',
+                'votes' => 'VotingsVotesController'
             ], ['only' => [
                 'index',
                 'show',

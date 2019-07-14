@@ -16,4 +16,9 @@ class VotingRecord extends Model
         'title',
         'original_id'
     ];
+
+    public function voting()
+    {
+        return $this->belongsTo(Voting::class);
+    }
 }
