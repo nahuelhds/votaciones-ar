@@ -69,7 +69,7 @@ class VotingsVotesController extends Controller
     // }
 
     /**
-     * Display the specified resource.
+     * Lista el voto con el ID especificado
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

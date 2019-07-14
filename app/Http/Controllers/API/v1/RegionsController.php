@@ -12,7 +12,7 @@ use App\Http\Resources\RegionCollection;
 class RegionsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Lista todas las regiones
      *
      * @return \Illuminate\Http\Response
      */
@@ -45,7 +45,7 @@ class RegionsController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Lista la región con el ID especificado
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
