@@ -12,7 +12,8 @@
         "fideloper/proxy": "^4.0",
         "laravel/framework": "5.8.*",
         "laravel/tinker": "^1.0",
-        "spatie/laravel-http-logger": "^1.1"
+        "spatie/laravel-http-logger": "^1.1",
+        "tcg/voyager": "^1.2"
     },
     "require-dev": {
         "beyondcode/laravel-dump-server": "^1.0",
@@ -59,5 +60,11 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ]
+    },
+    "repositories": {
+        "hooks": {
+            "type": "composer",
+            "url": "https://larapack.io"
+        }
     }
 }
