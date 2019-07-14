@@ -19,7 +19,10 @@ Route::namespace('API')->group(function () {
                 'parties' => 'PartiesController',
                 'votings' => 'VotingsController',
                 'votings/{voting}/votes' => 'VotingsVotesController'
-            ]);
+            ], ['only' => [
+                'index',
+                'show',
+            ]]);
         });
 
         Route::prefix('import/ar')->namespace('Import\AR')->group(function () {

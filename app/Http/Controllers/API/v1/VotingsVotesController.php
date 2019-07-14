@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 
 use App\Voting;
 use App\VotingVote;
+use App\Http\Resources\VotingVoteCollection;
 
 class VotingsVotesController extends Controller
 {
@@ -15,9 +16,9 @@ class VotingsVotesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Voting $voting)
+    public function index(int $votingId)
     {
-        return $voting->votes;
+        return new VotingVoteCollection(VotingVote::where('voting_id', $votingId)->paginate());
     }
 
     /**
@@ -37,9 +38,9 @@ class VotingsVotesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Voting $voting, VotingVote $vote)
+    public function show(int $votingId, VotingVote $vote)
     {
-        return $voting->vote($vote)->firstOrFail();
+        return $vote->where('voting_id', $votingId)->firstOrFail();
     }
 
     /**

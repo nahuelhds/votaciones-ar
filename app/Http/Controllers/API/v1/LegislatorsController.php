@@ -11,7 +11,7 @@ use App\Http\Resources\LegislatorCollection;
 class LegislatorsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Listado de legisladores
      *
      * @return \Illuminate\Http\Response
      */
@@ -26,13 +26,13 @@ class LegislatorsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    // public function store(Request $request)
+    // {
+    //     //
+    // }
 
     /**
-     * Display the specified resource.
+     * Muestra el legislador con el $id especificado
      *
      * @param \App\Legislator  $id
      * @return \Illuminate\Http\Response
@@ -49,10 +49,10 @@ class LegislatorsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+    // public function update(Request $request, $id)
+    // {
+    //     //
+    // }
 
     /**
      * Remove the specified resource from storage.
@@ -60,8 +60,8 @@ class LegislatorsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
-    }
+    // public function destroy($id)
+    // {
+    //     //
+    // }
 }
