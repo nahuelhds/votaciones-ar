@@ -13,7 +13,18 @@ use Illuminate\Http\Request;
 class LegislatorsController extends Controller
 {
     /**
-     * Lista todos los legisladores
+     * Listado de legisladores
+     *
+     * @queryParam filter[name] Parcial. Nombre del legislador. Example:
+     * @queryParam filter[last_name] Parcial. Apellido del legislador. Example:
+     * @queryParam filter[type] Exacto. Cargo actual. Valores: deputy, senator. Example:
+     * @queryParam filter[party_id] Exacto. ID del bloque al que actualmente pertenece. Example:
+     * @queryParam filter[original_id] Exacto. ID con el cual figura en la página fuente. Example:
+     *
+     * @queryParam include Entidades: party, region. Example:
+     *
+     * @queryParam sort Ordenamiento. Por defecto ASC. Si se antepone "-" se ordena de form DESC. Example:
+     * @queryParam page Número de página a mostrar. Example:
      *
      * @return \Illuminate\Http\Response
      */
@@ -27,8 +38,6 @@ class LegislatorsController extends Controller
             Filter::partial('last_name'),
             Filter::exact('type'),
             Filter::exact('party_id'),
-            Filter::partial('profile_url'),
-            Filter::partial('photo_url'),
             Filter::exact('original_id'),
         ]);
 
@@ -53,7 +62,7 @@ class LegislatorsController extends Controller
     // }
 
     /**
-     * Muestra el legislador con el ID especificado
+     * Legislador
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

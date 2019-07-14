@@ -16,7 +16,7 @@ use Spatie\QueryBuilder\Filter;
 class VotingsVotesController extends Controller
 {
     /**
-     * Lista todos los votos de una votación
+     * Listado de votos
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -69,7 +69,7 @@ class VotingsVotesController extends Controller
     // }
 
     /**
-     * Lista el voto con el ID especificado
+     * Voto
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

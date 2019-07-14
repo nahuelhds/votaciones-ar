@@ -12,22 +12,22 @@
 */
 
 Route::namespace('API')->group(function () {
-    Route::middleware('auth:api')->group(function () {
-        Route::prefix('v1')->namespace('v1')->group(function () {
-            Route::apiResources([
-                'legislators' => 'LegislatorsController',
-                'legislators/{legislator}/votes' => 'VotingsVotesController',
-                'parties' => 'PartiesController',
-                'regions' => 'RegionsController',
-                'votings' => 'VotingsController',
-                'votings/{voting}/votes' => 'VotingsVotesController',
-                'votes' => 'VotingsVotesController'
-            ], ['only' => [
-                'index',
-                'show',
-            ]]);
-        });
+    Route::prefix('v1')->namespace('v1')->group(function () {
+        Route::apiResources([
+            'legislators' => 'LegislatorsController',
+            'legislators/{legislator}/votes' => 'VotingsVotesController',
+            'parties' => 'PartiesController',
+            'regions' => 'RegionsController',
+            'votings' => 'VotingsController',
+            'votings/{voting}/votes' => 'VotingsVotesController',
+            'votes' => 'VotingsVotesController'
+        ], ['only' => [
+            'index',
+            'show',
+        ]]);
+    });
 
+    Route::middleware('auth:api')->group(function () {
         Route::prefix('import/ar')->namespace('Import\AR')->group(function () {
             Route::prefix('deputies')->group(function () {
                 Route::post('voting', 'DeputiesController@voting');

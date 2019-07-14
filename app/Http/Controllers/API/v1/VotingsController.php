@@ -14,7 +14,7 @@ use Illuminate\Http\Request;
 class VotingsController extends Controller
 {
     /**
-     * Lista todas las votaciones
+     * Listado de votaciones
      *
      * @return \Illuminate\Http\Response
      */
@@ -72,7 +72,7 @@ class VotingsController extends Controller
     // }
 
     /**
-     * Lista la votación con el ID especificado
+     * Votación
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

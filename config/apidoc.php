@@ -64,7 +64,7 @@ return [
                  * Match only routes whose paths match this pattern (use * as a wildcard to match any characters).
                  */
                 'prefixes' => [
-                    '*',
+                    'api/v1/*',
                     // 'users/*',
                 ],
 
@@ -103,8 +103,7 @@ return [
                  * Specify headers to be added to the example requests
                  */
                 'headers' => [
-                    // 'Authorization' => 'Bearer {token}',
-                    // 'Api-Version' => 'v2',
+                    // 'Authorization' => 'Bearer Y07KH9uNEGrPafm808BTUy2hFKA2GN2s0wAo1XMb0clHoru32QyTAmmeoEdN',
                 ],
 
                 /*
@@ -130,7 +129,12 @@ return [
                      * However, there must only be one parameter per path.
                      */
                     'bindings' => [
-                        // '{user}' => 1,
+                        '{legislator}' => 1,
+                        'legislators/*/votes/{vote}' => 345525,
+                        '{party}' => 1,
+                        '{region}' => 1,
+                        '{voting}' => 1,
+                        'votings/*/votes/{vote}' => 1,
                     ],
 
                     /*

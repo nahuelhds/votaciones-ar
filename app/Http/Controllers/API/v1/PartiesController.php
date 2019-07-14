@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 class PartiesController extends Controller
 {
     /**
-     * Lista todos los partidos políticos
+     * Listado de bloques
      *
      * @return \Illuminate\Http\Response
      */
@@ -46,7 +46,7 @@ class PartiesController extends Controller
     // }
 
     /**
-     * Lista el partidos político con el ID especificado
+     * Bloque
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
