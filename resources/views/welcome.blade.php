@@ -57,9 +57,35 @@
                 font-size: 32px;
             }
 
+            .call-to-action > p {
+                font-size: 1.25rem;
+            }
+
+            .call-to-action > a {
+                border: 2px solid transparent;
+                display: inline-block;
+                padding: 0.75rem 1.5rem;
+                font-size: 1.8rem;
+                line-height: 1.5;
+                border-radius: 0.75rem;
+                text-decoration: none;
+                width: 300px;
+            }
+
+            .call-to-action > a.primary {
+                color: #fff;
+                background-color: #007bff;
+                border-color: #007bff;
+            }
+
+            .call-to-action > a.default {
+                color: #333;
+                border-color: #666;
+            }
+
             .links > a {
                 color: #636b6f;
-                padding: 0 25px;
+                padding: 0 25px 2rem;
                 font-size: 13px;
                 font-weight: 600;
                 letter-spacing: 0.1rem;
@@ -93,15 +119,31 @@
                 </div>
                 <div class="subtitle m-b-md">
                     <p>
-                        Próximamente vas a poder ver cómo votan nuestros
+                        Próximamente vas a ver cómo actúan nuestros
                         representantes
                     </p>
                 </div>
-                <div class="links">
-                    <a
-                        href="https://github.com/nahuelhds/votaciones-ar-datasets"
-                        ><i class="fas fa-file-excel fa-2x"></i> Datasets</a
+                <div class="call-to-action m-b-md">
+                    <p>
+                        ¿Sos un/a geek con inquietudes? 👨‍💻👩‍💻 <br />
+                        El API ya está listo para consultar 🤓
+                    </p>
+                    <a class="primary" href="./docs">
+                        <i class="fas fa-book"></i> Referencia del API</a
                     >
+                </div>
+                <div class="call-to-action m-b-md">
+                    <p>
+                        ¡Accesible para la humanidad! 🧑👨 <br />Formatos
+                        amigables CSV y JSON 👇
+                    </p>
+                    <a
+                        class="default"
+                        href="https://github.com/nahuelhds/votaciones-ar-datasets"
+                        ><i class="fas fa-file-excel"></i> Datasets
+                    </a>
+                </div>
+                <div class="links">
                     <a href="https://github.com/nahuelhds/votaciones-ar">
                         <i class="fab fa-github fa-2x"></i> GitHub</a
                     >
