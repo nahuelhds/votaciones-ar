@@ -16,4 +16,19 @@ class Legislator extends Model
         'name',
         'last_name'
     ];
+
+    public function party()
+    {
+        return $this->belongsTo(Party::class);
+    }
+
+    public function region()
+    {
+        return $this->belongsTo(Region::class);
+    }
+
+    public function votes()
+    {
+        return $this->hasMany(VotingVote::class);
+    }
 }

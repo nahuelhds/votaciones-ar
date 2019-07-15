@@ -34,6 +34,11 @@ class Voting extends Model
         return $this->hasMany(VotingRecord::class);
     }
 
+    public function president()
+    {
+        return $this->belongsTo(Legislator::class, 'president_id');
+    }
+
     /**
      * Get all the votes from this voting
      *
@@ -43,16 +48,5 @@ class Voting extends Model
     public function votes()
     {
         return $this->hasMany(VotingVote::class);
-    }
-
-    /**
-     * Get the $vote if it belongs to this voting only
-     *
-     * @param VotingVote $vote
-     * @return VotingVote
-     */
-    public function vote(VotingVote $vote)
-    {
-        return $this->hasMany(VotingVote::class)->where('id', $vote->id);
     }
 }

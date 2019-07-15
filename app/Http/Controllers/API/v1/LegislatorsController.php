@@ -2,22 +2,54 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Legislator;
 use App\Http\Resources\LegislatorCollection;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\Filter;
+use Illuminate\Http\Request;
 
 class LegislatorsController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Listado de legisladores
+     *
+     * @queryParam filter[last_name] Parcial. Apellido del legislador. Example:
+     * @queryParam filter[name] Parcial. Nombre del legislador. Example:
+     * @queryParam filter[original_id] Exacto. ID con el cual figura en la página oficial. Example:
+     * @queryParam filter[party_id] Exacto. ID del bloque al que pertenece actualmente. Example:
+     * @queryParam filter[region_id] Exacto. ID de la región a la que pertenece actualmente. Example:
+     * @queryParam filter[type] Exacto. Cargo actual. Valores: deputy, senator. Example:
+     *
+     * @queryParam include Entidades: party, region. Example:
+     *
+     * @queryParam sort Campo de ordenamiento. Por defecto ASC. Si se antepone "-" se ordena DESC. Example:
+     * @queryParam page Número de página. Example:
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return new LegislatorCollection(Legislator::paginate());
+        $resources = QueryBuilder::for(Legislator::class);
+
+        // Filters
+        $resources->allowedFilters([
+            Filter::partial('name'),
+            Filter::partial('last_name'),
+            Filter::exact('type'),
+            Filter::exact('party_id'),
+            Filter::exact('region_id'),
+            Filter::exact('original_id'),
+        ]);
+
+        // Relations
+        $resources->allowedIncludes([
+            'party',
+            'region',
+        ]);
+
+        return new LegislatorCollection($resources->paginate());
     }
 
     /**
@@ -26,20 +58,30 @@ class LegislatorsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    // public function store(Request $request)
+    // {
+    //     //
+    // }
 
     /**
-     * Display the specified resource.
+     * Legislador
      *
-     * @param \App\Legislator  $id
+     * @queryParam include Entidades: party, region. Example:
+     *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function show(Legislator $legislator)
+    public function show(Request $request)
     {
-        return $legislator;
+        $resource = QueryBuilder::for(Legislator::class);
+
+        // Relations
+        $resource->allowedIncludes([
+            'party',
+            'region',
+        ]);
+
+        return $resource->findOrFail($request->legislator);
     }
 
     /**
@@ -49,10 +91,10 @@ class LegislatorsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+    // public function update(Request $request, $id)
+    // {
+    //     //
+    // }
 
     /**
      * Remove the specified resource from storage.
@@ -60,8 +102,8 @@ class LegislatorsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
-    }
+    // public function destroy($id)
+    // {
+    //     //
+    // }
 }

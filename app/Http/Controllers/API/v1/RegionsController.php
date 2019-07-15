@@ -2,31 +2,31 @@
 
 namespace App\Http\Controllers\API\v1;
 
+use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-
-use App\Party;
-use App\Http\Resources\PartyCollection;
+use App\Region;
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\Filter;
-use Illuminate\Http\Request;
+use App\Http\Resources\RegionCollection;
 
-class PartiesController extends Controller
+class RegionsController extends Controller
 {
     /**
-     * Listado de bloques
+     * Listado de regiones
      *
-     * @queryParam filter[name] Parcial. Nombre del bloque. Example:
+     * @queryParam filter[name] Parcial. Nombre de la región. Example:
      *
      * @queryParam include Entidades: legislators. Example:
      *
      * @queryParam sort Campo de ordenamiento. Por defecto ASC. Si se antepone "-" se ordena DESC. Example:
      * @queryParam page Número de página. Example:
      *
+     *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        $resources = QueryBuilder::for(Party::class);
+        $resources = QueryBuilder::for(Region::class);
 
         // Filters
         $resources->allowedFilters([
@@ -38,7 +38,7 @@ class PartiesController extends Controller
             'legislators',
         ]);
 
-        return new PartyCollection($resources->paginate());
+        return new RegionCollection($resources->paginate());
     }
 
     /**
@@ -53,7 +53,7 @@ class PartiesController extends Controller
     // }
 
     /**
-     * Bloque
+     * Región
      *
      * @queryParam include Entidades: legislators. Example:
      *
@@ -62,14 +62,14 @@ class PartiesController extends Controller
      */
     public function show(Request $request)
     {
-        $resource = QueryBuilder::for(Party::class);
+        $resource = QueryBuilder::for(Region::class);
 
         // Relations
         $resource->allowedIncludes([
             'legislators',
         ]);
 
-        return $resource->findOrFail($request->party);
+        return $resource->findOrFail($request->region);
     }
 
     /**
