@@ -18,6 +18,19 @@ class VotingsVotesController extends Controller
     /**
      * Listado de votos
      *
+     * @queryParam filter[legislator_id] Exacto. ID del legislador que votó. Example:
+     * @queryParam filter[party_id] Exacto. ID del bloque por el cual votó. Example:
+     * @queryParam filter[region_id] Exacto. ID de la región por la cual votó. Example:
+     * @queryParam filter[video_url] Parcial. URL del video provisto por el sitio oficial. Example:
+     * @queryParam filter[vote] Parcial. Voto. Valores: "affirmative", "negative", "abstention" o `null`. Example:
+     * @queryParam filter[vote_raw] Parcial. Voto en texto crudo tal como figura en el sitio oficial. Example:
+     * @queryParam filter[voting_id] Exacto. ID de la votación. Example:
+     *
+     * @queryParam include Entidades: legislator, party, region, voting. Example:
+     *
+     * @queryParam sort Campo de ordenamiento. Por defecto ASC. Si se antepone "-" se ordena DESC. Example:
+     * @queryParam page Número de página. Example:
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -70,6 +83,8 @@ class VotingsVotesController extends Controller
 
     /**
      * Voto
+     *
+     * @queryParam include Entidades: legislator, party, region, voting. Example:
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

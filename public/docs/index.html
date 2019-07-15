@@ -58,11 +58,12 @@
 <pre><code class="language-javascript">const url = new URL("/api/v1/legislators");
 
     let params = {
-            "filter[name]": "",
             "filter[last_name]": "",
-            "filter[type]": "",
-            "filter[party_id]": "",
+            "filter[name]": "",
             "filter[original_id]": "",
+            "filter[party_id]": "",
+            "filter[region_id]": "",
+            "filter[type]": "",
             "include": "",
             "sort": "",
             "page": "",
@@ -355,29 +356,34 @@ fetch(url, {
 </thead>
 <tbody>
 <tr>
-<td>filter[name]</td>
-<td>optional</td>
-<td>Parcial. Nombre del legislador.</td>
-</tr>
-<tr>
 <td>filter[last_name]</td>
 <td>optional</td>
 <td>Parcial. Apellido del legislador.</td>
 </tr>
 <tr>
-<td>filter[type]</td>
+<td>filter[name]</td>
 <td>optional</td>
-<td>Exacto. Cargo actual. Valores: deputy, senator.</td>
-</tr>
-<tr>
-<td>filter[party_id]</td>
-<td>optional</td>
-<td>Exacto. ID del bloque al que actualmente pertenece.</td>
+<td>Parcial. Nombre del legislador.</td>
 </tr>
 <tr>
 <td>filter[original_id]</td>
 <td>optional</td>
-<td>Exacto. ID con el cual figura en la página fuente.</td>
+<td>Exacto. ID con el cual figura en la página oficial.</td>
+</tr>
+<tr>
+<td>filter[party_id]</td>
+<td>optional</td>
+<td>Exacto. ID del bloque al que pertenece actualmente.</td>
+</tr>
+<tr>
+<td>filter[region_id]</td>
+<td>optional</td>
+<td>Exacto. ID de la región a la que pertenece actualmente.</td>
+</tr>
+<tr>
+<td>filter[type]</td>
+<td>optional</td>
+<td>Exacto. Cargo actual. Valores: deputy, senator.</td>
 </tr>
 <tr>
 <td>include</td>
@@ -387,12 +393,12 @@ fetch(url, {
 <tr>
 <td>sort</td>
 <td>optional</td>
-<td>Ordenamiento. Por defecto ASC. Si se antepone &quot;-&quot; se ordena de form DESC.</td>
+<td>Campo de ordenamiento. Por defecto ASC. Si se antepone &quot;-&quot; se ordena DESC.</td>
 </tr>
 <tr>
 <td>page</td>
 <td>optional</td>
-<td>Número de página a mostrar.</td>
+<td>Número de página.</td>
 </tr>
 </tbody>
 </table>
@@ -404,6 +410,11 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "/api/v1/legislators/1" </code></pre>
 <pre><code class="language-javascript">const url = new URL("/api/v1/legislators/1");
+
+    let params = {
+            "include": "",
+        };
+    Object.keys(params).forEach(key =&gt; url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -437,6 +448,23 @@ fetch(url, {
 }</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET api/v1/legislators/{legislator}</code></p>
+<h4>Query Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>include</td>
+<td>optional</td>
+<td>Entidades: party, region.</td>
+</tr>
+</tbody>
+</table>
 <!-- END_6c1cc684eb8408e56f36cc76f78ca353 -->
 <!-- START_ae7e81f8093dc7280ff0c2c2930d2c1f -->
 <h2>Listado de votos</h2>
@@ -445,6 +473,20 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "/api/v1/legislators/1/votes" </code></pre>
 <pre><code class="language-javascript">const url = new URL("/api/v1/legislators/1/votes");
+
+    let params = {
+            "filter[legislator_id]": "",
+            "filter[party_id]": "",
+            "filter[region_id]": "",
+            "filter[video_url]": "",
+            "filter[vote]": "",
+            "filter[vote_raw]": "",
+            "filter[voting_id]": "",
+            "include": "",
+            "sort": "",
+            "page": "",
+        };
+    Object.keys(params).forEach(key =&gt; url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -676,6 +718,68 @@ fetch(url, {
 }</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET api/v1/legislators/{legislator}/votes</code></p>
+<h4>Query Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>filter[legislator_id]</td>
+<td>optional</td>
+<td>Exacto. ID del legislador que votó.</td>
+</tr>
+<tr>
+<td>filter[party_id]</td>
+<td>optional</td>
+<td>Exacto. ID del bloque por el cual votó.</td>
+</tr>
+<tr>
+<td>filter[region_id]</td>
+<td>optional</td>
+<td>Exacto. ID de la región por la cual votó.</td>
+</tr>
+<tr>
+<td>filter[video_url]</td>
+<td>optional</td>
+<td>Parcial. URL del video provisto por el sitio oficial.</td>
+</tr>
+<tr>
+<td>filter[vote]</td>
+<td>optional</td>
+<td>Parcial. Voto. Valores: &quot;affirmative&quot;, &quot;negative&quot;, &quot;abstention&quot; o <code>null</code>.</td>
+</tr>
+<tr>
+<td>filter[vote_raw]</td>
+<td>optional</td>
+<td>Parcial. Voto en texto crudo tal como figura en el sitio oficial.</td>
+</tr>
+<tr>
+<td>filter[voting_id]</td>
+<td>optional</td>
+<td>Exacto. ID de la votación.</td>
+</tr>
+<tr>
+<td>include</td>
+<td>optional</td>
+<td>Entidades: legislator, party, region, voting.</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>optional</td>
+<td>Campo de ordenamiento. Por defecto ASC. Si se antepone &quot;-&quot; se ordena DESC.</td>
+</tr>
+<tr>
+<td>page</td>
+<td>optional</td>
+<td>Número de página.</td>
+</tr>
+</tbody>
+</table>
 <!-- END_ae7e81f8093dc7280ff0c2c2930d2c1f -->
 <!-- START_a225d65d2502b0e5edd7b66a4715148f -->
 <h2>Voto</h2>
@@ -684,6 +788,11 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "/api/v1/legislators/1/votes/345525" </code></pre>
 <pre><code class="language-javascript">const url = new URL("/api/v1/legislators/1/votes/345525");
+
+    let params = {
+            "include": "",
+        };
+    Object.keys(params).forEach(key =&gt; url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -714,6 +823,23 @@ fetch(url, {
 }</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET api/v1/legislators/{legislator}/votes/{vote}</code></p>
+<h4>Query Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>include</td>
+<td>optional</td>
+<td>Entidades: legislator, party, region, voting.</td>
+</tr>
+</tbody>
+</table>
 <!-- END_a225d65d2502b0e5edd7b66a4715148f -->
 <!-- START_376e7ef8a9d5b602e19b713fb35c2e95 -->
 <h2>Listado de bloques</h2>
@@ -722,6 +848,14 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "/api/v1/parties" </code></pre>
 <pre><code class="language-javascript">const url = new URL("/api/v1/parties");
+
+    let params = {
+            "filter[name]": "",
+            "include": "",
+            "sort": "",
+            "page": "",
+        };
+    Object.keys(params).forEach(key =&gt; url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -893,6 +1027,38 @@ fetch(url, {
 }</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET api/v1/parties</code></p>
+<h4>Query Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>filter[name]</td>
+<td>optional</td>
+<td>Parcial. Nombre del bloque.</td>
+</tr>
+<tr>
+<td>include</td>
+<td>optional</td>
+<td>Entidades: legislators.</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>optional</td>
+<td>Campo de ordenamiento. Por defecto ASC. Si se antepone &quot;-&quot; se ordena DESC.</td>
+</tr>
+<tr>
+<td>page</td>
+<td>optional</td>
+<td>Número de página.</td>
+</tr>
+</tbody>
+</table>
 <!-- END_376e7ef8a9d5b602e19b713fb35c2e95 -->
 <!-- START_fb016173185b7735350f8d3308073d7d -->
 <h2>Bloque</h2>
@@ -901,6 +1067,11 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "/api/v1/parties/1" </code></pre>
 <pre><code class="language-javascript">const url = new URL("/api/v1/parties/1");
+
+    let params = {
+            "include": "",
+        };
+    Object.keys(params).forEach(key =&gt; url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -927,6 +1098,23 @@ fetch(url, {
 }</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET api/v1/parties/{party}</code></p>
+<h4>Query Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>include</td>
+<td>optional</td>
+<td>Entidades: legislators.</td>
+</tr>
+</tbody>
+</table>
 <!-- END_fb016173185b7735350f8d3308073d7d -->
 <!-- START_9f8b25db943f4986cb344335635be033 -->
 <h2>Listado de regiones</h2>
@@ -935,6 +1123,14 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "/api/v1/regions" </code></pre>
 <pre><code class="language-javascript">const url = new URL("/api/v1/regions");
+
+    let params = {
+            "filter[name]": "",
+            "include": "",
+            "sort": "",
+            "page": "",
+        };
+    Object.keys(params).forEach(key =&gt; url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -1076,6 +1272,38 @@ fetch(url, {
 }</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET api/v1/regions</code></p>
+<h4>Query Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>filter[name]</td>
+<td>optional</td>
+<td>Parcial. Nombre de la región.</td>
+</tr>
+<tr>
+<td>include</td>
+<td>optional</td>
+<td>Entidades: legislators.</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>optional</td>
+<td>Campo de ordenamiento. Por defecto ASC. Si se antepone &quot;-&quot; se ordena DESC.</td>
+</tr>
+<tr>
+<td>page</td>
+<td>optional</td>
+<td>Número de página.</td>
+</tr>
+</tbody>
+</table>
 <!-- END_9f8b25db943f4986cb344335635be033 -->
 <!-- START_151445cf5ffee34219bcb2dd6fe7e6a6 -->
 <h2>Región</h2>
@@ -1084,6 +1312,11 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "/api/v1/regions/1" </code></pre>
 <pre><code class="language-javascript">const url = new URL("/api/v1/regions/1");
+
+    let params = {
+            "include": "",
+        };
+    Object.keys(params).forEach(key =&gt; url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -1108,6 +1341,23 @@ fetch(url, {
 }</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET api/v1/regions/{region}</code></p>
+<h4>Query Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>include</td>
+<td>optional</td>
+<td>Entidades: legislators.</td>
+</tr>
+</tbody>
+</table>
 <!-- END_151445cf5ffee34219bcb2dd6fe7e6a6 -->
 <!-- START_8d990fbcac399511b255f14ae63b39b5 -->
 <h2>Listado de votaciones</h2>
@@ -1116,6 +1366,26 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "/api/v1/votings" </code></pre>
 <pre><code class="language-javascript">const url = new URL("/api/v1/votings");
+
+    let params = {
+            "filter[chamber]": "",
+            "filter[document_url]": "",
+            "filter[file_url]": "",
+            "filter[meeting]": "",
+            "filter[original_id]": "",
+            "filter[period]": "",
+            "filter[president_id]": "",
+            "filter[record]": "",
+            "filter[result]": "",
+            "filter[result_raw]": "",
+            "filter[source_url]": "",
+            "filter[title]": "",
+            "filter[type]": "",
+            "include": "",
+            "sort": "",
+            "page": "",
+        };
+    Object.keys(params).forEach(key =&gt; url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -1527,6 +1797,98 @@ fetch(url, {
 }</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET api/v1/votings</code></p>
+<h4>Query Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>filter[chamber]</td>
+<td>optional</td>
+<td>Exacto. Cámara. Valores: deputies, senators.</td>
+</tr>
+<tr>
+<td>filter[document_url]</td>
+<td>optional</td>
+<td>Parcial. URL del documento PDF relacionado.</td>
+</tr>
+<tr>
+<td>filter[file_url]</td>
+<td>optional</td>
+<td>Parcial. URL del expediente relacionado.</td>
+</tr>
+<tr>
+<td>filter[meeting]</td>
+<td>optional</td>
+<td>Exacto. Sesión/Reunión.</td>
+</tr>
+<tr>
+<td>filter[original_id]</td>
+<td>optional</td>
+<td>Exacto. ID con el cual figura en la página oficial.</td>
+</tr>
+<tr>
+<td>filter[period]</td>
+<td>optional</td>
+<td>Exacto. Período.</td>
+</tr>
+<tr>
+<td>filter[president_id]</td>
+<td>optional</td>
+<td>Exacto. ID del legislador presidente de la sesión.</td>
+</tr>
+<tr>
+<td>filter[record]</td>
+<td>optional</td>
+<td>Exacto. Acta.</td>
+</tr>
+<tr>
+<td>filter[result]</td>
+<td>optional</td>
+<td>Exacto. Resultado de la votación. Valores: true, false, null.</td>
+</tr>
+<tr>
+<td>filter[result_raw]</td>
+<td>optional</td>
+<td>Parcial. Resultado crudo tal como figura en el sitio oficial.</td>
+</tr>
+<tr>
+<td>filter[source_url]</td>
+<td>optional</td>
+<td>Parcial. URL fuente del sitio oficial.</td>
+</tr>
+<tr>
+<td>filter[title]</td>
+<td>optional</td>
+<td>Parcial. Título de la votación.</td>
+</tr>
+<tr>
+<td>filter[type]</td>
+<td>optional</td>
+<td>Parcial. Tipo de votacion.</td>
+</tr>
+<tr>
+<td>include</td>
+<td>optional</td>
+<td>Entidades: president, records.</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>optional</td>
+<td>Campo de ordenamiento. Por defecto ASC. Si se antepone &quot;-&quot; se ordena DESC.</td>
+</tr>
+<tr>
+<td>page</td>
+<td>optional</td>
+<td>Número de página.</td>
+</tr>
+</tbody>
+</table>
 <!-- END_8d990fbcac399511b255f14ae63b39b5 -->
 <!-- START_b532eb6e166e7fdd3d95dcebae28551e -->
 <h2>Votación</h2>
@@ -1535,6 +1897,11 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "/api/v1/votings/1" </code></pre>
 <pre><code class="language-javascript">const url = new URL("/api/v1/votings/1");
+
+    let params = {
+            "include": "",
+        };
+    Object.keys(params).forEach(key =&gt; url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -1577,6 +1944,23 @@ fetch(url, {
 }</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET api/v1/votings/{voting}</code></p>
+<h4>Query Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>include</td>
+<td>optional</td>
+<td>Entidades: president, records.</td>
+</tr>
+</tbody>
+</table>
 <!-- END_b532eb6e166e7fdd3d95dcebae28551e -->
 <!-- START_c87e5d8b04e9bb9a9c2092e998cd8ad3 -->
 <h2>Listado de votos</h2>
@@ -1585,6 +1969,20 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "/api/v1/votings/1/votes" </code></pre>
 <pre><code class="language-javascript">const url = new URL("/api/v1/votings/1/votes");
+
+    let params = {
+            "filter[legislator_id]": "",
+            "filter[party_id]": "",
+            "filter[region_id]": "",
+            "filter[video_url]": "",
+            "filter[vote]": "",
+            "filter[vote_raw]": "",
+            "filter[voting_id]": "",
+            "include": "",
+            "sort": "",
+            "page": "",
+        };
+    Object.keys(params).forEach(key =&gt; url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -1816,6 +2214,68 @@ fetch(url, {
 }</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET api/v1/votings/{voting}/votes</code></p>
+<h4>Query Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>filter[legislator_id]</td>
+<td>optional</td>
+<td>Exacto. ID del legislador que votó.</td>
+</tr>
+<tr>
+<td>filter[party_id]</td>
+<td>optional</td>
+<td>Exacto. ID del bloque por el cual votó.</td>
+</tr>
+<tr>
+<td>filter[region_id]</td>
+<td>optional</td>
+<td>Exacto. ID de la región por la cual votó.</td>
+</tr>
+<tr>
+<td>filter[video_url]</td>
+<td>optional</td>
+<td>Parcial. URL del video provisto por el sitio oficial.</td>
+</tr>
+<tr>
+<td>filter[vote]</td>
+<td>optional</td>
+<td>Parcial. Voto. Valores: &quot;affirmative&quot;, &quot;negative&quot;, &quot;abstention&quot; o <code>null</code>.</td>
+</tr>
+<tr>
+<td>filter[vote_raw]</td>
+<td>optional</td>
+<td>Parcial. Voto en texto crudo tal como figura en el sitio oficial.</td>
+</tr>
+<tr>
+<td>filter[voting_id]</td>
+<td>optional</td>
+<td>Exacto. ID de la votación.</td>
+</tr>
+<tr>
+<td>include</td>
+<td>optional</td>
+<td>Entidades: legislator, party, region, voting.</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>optional</td>
+<td>Campo de ordenamiento. Por defecto ASC. Si se antepone &quot;-&quot; se ordena DESC.</td>
+</tr>
+<tr>
+<td>page</td>
+<td>optional</td>
+<td>Número de página.</td>
+</tr>
+</tbody>
+</table>
 <!-- END_c87e5d8b04e9bb9a9c2092e998cd8ad3 -->
 <!-- START_79bf43f9195fe81465d288210bfb0898 -->
 <h2>Voto</h2>
@@ -1824,6 +2284,11 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "/api/v1/votings/1/votes/1" </code></pre>
 <pre><code class="language-javascript">const url = new URL("/api/v1/votings/1/votes/1");
+
+    let params = {
+            "include": "",
+        };
+    Object.keys(params).forEach(key =&gt; url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -1854,6 +2319,23 @@ fetch(url, {
 }</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET api/v1/votings/{voting}/votes/{vote}</code></p>
+<h4>Query Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>include</td>
+<td>optional</td>
+<td>Entidades: legislator, party, region, voting.</td>
+</tr>
+</tbody>
+</table>
 <!-- END_79bf43f9195fe81465d288210bfb0898 -->
 <!-- START_17e5a62dc41c242ac93d2d5e2b718045 -->
 <h2>Listado de votos</h2>
@@ -1862,6 +2344,20 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "/api/v1/votes" </code></pre>
 <pre><code class="language-javascript">const url = new URL("/api/v1/votes");
+
+    let params = {
+            "filter[legislator_id]": "",
+            "filter[party_id]": "",
+            "filter[region_id]": "",
+            "filter[video_url]": "",
+            "filter[vote]": "",
+            "filter[vote_raw]": "",
+            "filter[voting_id]": "",
+            "include": "",
+            "sort": "",
+            "page": "",
+        };
+    Object.keys(params).forEach(key =&gt; url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -2093,6 +2589,68 @@ fetch(url, {
 }</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET api/v1/votes</code></p>
+<h4>Query Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>filter[legislator_id]</td>
+<td>optional</td>
+<td>Exacto. ID del legislador que votó.</td>
+</tr>
+<tr>
+<td>filter[party_id]</td>
+<td>optional</td>
+<td>Exacto. ID del bloque por el cual votó.</td>
+</tr>
+<tr>
+<td>filter[region_id]</td>
+<td>optional</td>
+<td>Exacto. ID de la región por la cual votó.</td>
+</tr>
+<tr>
+<td>filter[video_url]</td>
+<td>optional</td>
+<td>Parcial. URL del video provisto por el sitio oficial.</td>
+</tr>
+<tr>
+<td>filter[vote]</td>
+<td>optional</td>
+<td>Parcial. Voto. Valores: &quot;affirmative&quot;, &quot;negative&quot;, &quot;abstention&quot; o <code>null</code>.</td>
+</tr>
+<tr>
+<td>filter[vote_raw]</td>
+<td>optional</td>
+<td>Parcial. Voto en texto crudo tal como figura en el sitio oficial.</td>
+</tr>
+<tr>
+<td>filter[voting_id]</td>
+<td>optional</td>
+<td>Exacto. ID de la votación.</td>
+</tr>
+<tr>
+<td>include</td>
+<td>optional</td>
+<td>Entidades: legislator, party, region, voting.</td>
+</tr>
+<tr>
+<td>sort</td>
+<td>optional</td>
+<td>Campo de ordenamiento. Por defecto ASC. Si se antepone &quot;-&quot; se ordena DESC.</td>
+</tr>
+<tr>
+<td>page</td>
+<td>optional</td>
+<td>Número de página.</td>
+</tr>
+</tbody>
+</table>
 <!-- END_17e5a62dc41c242ac93d2d5e2b718045 -->
 <!-- START_49c12486174874310d1d5c5724de2a5f -->
 <h2>Voto</h2>
@@ -2101,6 +2659,11 @@ fetch(url, {
 </blockquote>
 <pre><code class="language-bash">curl -X GET -G "/api/v1/votes/1" </code></pre>
 <pre><code class="language-javascript">const url = new URL("/api/v1/votes/1");
+
+    let params = {
+            "include": "",
+        };
+    Object.keys(params).forEach(key =&gt; url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -2131,6 +2694,23 @@ fetch(url, {
 }</code></pre>
 <h3>HTTP Request</h3>
 <p><code>GET api/v1/votes/{vote}</code></p>
+<h4>Query Parameters</h4>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Status</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>include</td>
+<td>optional</td>
+<td>Entidades: legislator, party, region, voting.</td>
+</tr>
+</tbody>
+</table>
 <!-- END_49c12486174874310d1d5c5724de2a5f -->
       </div>
       <div class="dark-box">

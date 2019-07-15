@@ -14,6 +14,14 @@ class RegionsController extends Controller
     /**
      * Listado de regiones
      *
+     * @queryParam filter[name] Parcial. Nombre de la región. Example:
+     *
+     * @queryParam include Entidades: legislators. Example:
+     *
+     * @queryParam sort Campo de ordenamiento. Por defecto ASC. Si se antepone "-" se ordena DESC. Example:
+     * @queryParam page Número de página. Example:
+     *
+     *
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -39,13 +47,15 @@ class RegionsController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    // public function store(Request $request)
+    // {
+    //     //
+    // }
 
     /**
      * Región
+     *
+     * @queryParam include Entidades: legislators. Example:
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
@@ -69,10 +79,10 @@ class RegionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+    // public function update(Request $request, $id)
+    // {
+    //     //
+    // }
 
     /**
      * Remove the specified resource from storage.
@@ -80,8 +90,8 @@ class RegionsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
-    }
+    // public function destroy($id)
+    // {
+    //     //
+    // }
 }

@@ -34,11 +34,12 @@ curl -X GET -G "/api/v1/legislators"
 const url = new URL("/api/v1/legislators");
 
     let params = {
-            "filter[name]": "",
             "filter[last_name]": "",
-            "filter[type]": "",
-            "filter[party_id]": "",
+            "filter[name]": "",
             "filter[original_id]": "",
+            "filter[party_id]": "",
+            "filter[region_id]": "",
+            "filter[type]": "",
             "include": "",
             "sort": "",
             "page": "",
@@ -330,14 +331,15 @@ fetch(url, {
 
 Parameter | Status | Description
 --------- | ------- | ------- | -----------
-    filter[name] |  optional  | Parcial. Nombre del legislador.
     filter[last_name] |  optional  | Parcial. Apellido del legislador.
+    filter[name] |  optional  | Parcial. Nombre del legislador.
+    filter[original_id] |  optional  | Exacto. ID con el cual figura en la página oficial.
+    filter[party_id] |  optional  | Exacto. ID del bloque al que pertenece actualmente.
+    filter[region_id] |  optional  | Exacto. ID de la región a la que pertenece actualmente.
     filter[type] |  optional  | Exacto. Cargo actual. Valores: deputy, senator.
-    filter[party_id] |  optional  | Exacto. ID del bloque al que actualmente pertenece.
-    filter[original_id] |  optional  | Exacto. ID con el cual figura en la página fuente.
     include |  optional  | Entidades: party, region.
-    sort |  optional  | Ordenamiento. Por defecto ASC. Si se antepone "-" se ordena de form DESC.
-    page |  optional  | Número de página a mostrar.
+    sort |  optional  | Campo de ordenamiento. Por defecto ASC. Si se antepone "-" se ordena DESC.
+    page |  optional  | Número de página.
 
 <!-- END_91aeb85daa7d2136e84c4e9e1ef3475e -->
 
@@ -352,6 +354,11 @@ curl -X GET -G "/api/v1/legislators/1"
 
 ```javascript
 const url = new URL("/api/v1/legislators/1");
+
+    let params = {
+            "include": "",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -391,6 +398,11 @@ fetch(url, {
 ### HTTP Request
 `GET api/v1/legislators/{legislator}`
 
+#### Query Parameters
+
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    include |  optional  | Entidades: party, region.
 
 <!-- END_6c1cc684eb8408e56f36cc76f78ca353 -->
 
@@ -405,6 +417,20 @@ curl -X GET -G "/api/v1/legislators/1/votes"
 
 ```javascript
 const url = new URL("/api/v1/legislators/1/votes");
+
+    let params = {
+            "filter[legislator_id]": "",
+            "filter[party_id]": "",
+            "filter[region_id]": "",
+            "filter[video_url]": "",
+            "filter[vote]": "",
+            "filter[vote_raw]": "",
+            "filter[voting_id]": "",
+            "include": "",
+            "sort": "",
+            "page": "",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -642,6 +668,20 @@ fetch(url, {
 ### HTTP Request
 `GET api/v1/legislators/{legislator}/votes`
 
+#### Query Parameters
+
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    filter[legislator_id] |  optional  | Exacto. ID del legislador que votó.
+    filter[party_id] |  optional  | Exacto. ID del bloque por el cual votó.
+    filter[region_id] |  optional  | Exacto. ID de la región por la cual votó.
+    filter[video_url] |  optional  | Parcial. URL del video provisto por el sitio oficial.
+    filter[vote] |  optional  | Parcial. Voto. Valores: "affirmative", "negative", "abstention" o `null`.
+    filter[vote_raw] |  optional  | Parcial. Voto en texto crudo tal como figura en el sitio oficial.
+    filter[voting_id] |  optional  | Exacto. ID de la votación.
+    include |  optional  | Entidades: legislator, party, region, voting.
+    sort |  optional  | Campo de ordenamiento. Por defecto ASC. Si se antepone "-" se ordena DESC.
+    page |  optional  | Número de página.
 
 <!-- END_ae7e81f8093dc7280ff0c2c2930d2c1f -->
 
@@ -656,6 +696,11 @@ curl -X GET -G "/api/v1/legislators/1/votes/345525"
 
 ```javascript
 const url = new URL("/api/v1/legislators/1/votes/345525");
+
+    let params = {
+            "include": "",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -692,6 +737,11 @@ fetch(url, {
 ### HTTP Request
 `GET api/v1/legislators/{legislator}/votes/{vote}`
 
+#### Query Parameters
+
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    include |  optional  | Entidades: legislator, party, region, voting.
 
 <!-- END_a225d65d2502b0e5edd7b66a4715148f -->
 
@@ -706,6 +756,14 @@ curl -X GET -G "/api/v1/parties"
 
 ```javascript
 const url = new URL("/api/v1/parties");
+
+    let params = {
+            "filter[name]": "",
+            "include": "",
+            "sort": "",
+            "page": "",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -883,6 +941,14 @@ fetch(url, {
 ### HTTP Request
 `GET api/v1/parties`
 
+#### Query Parameters
+
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    filter[name] |  optional  | Parcial. Nombre del bloque.
+    include |  optional  | Entidades: legislators.
+    sort |  optional  | Campo de ordenamiento. Por defecto ASC. Si se antepone "-" se ordena DESC.
+    page |  optional  | Número de página.
 
 <!-- END_376e7ef8a9d5b602e19b713fb35c2e95 -->
 
@@ -897,6 +963,11 @@ curl -X GET -G "/api/v1/parties/1"
 
 ```javascript
 const url = new URL("/api/v1/parties/1");
+
+    let params = {
+            "include": "",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -929,6 +1000,11 @@ fetch(url, {
 ### HTTP Request
 `GET api/v1/parties/{party}`
 
+#### Query Parameters
+
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    include |  optional  | Entidades: legislators.
 
 <!-- END_fb016173185b7735350f8d3308073d7d -->
 
@@ -943,6 +1019,14 @@ curl -X GET -G "/api/v1/regions"
 
 ```javascript
 const url = new URL("/api/v1/regions");
+
+    let params = {
+            "filter[name]": "",
+            "include": "",
+            "sort": "",
+            "page": "",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -1090,6 +1174,14 @@ fetch(url, {
 ### HTTP Request
 `GET api/v1/regions`
 
+#### Query Parameters
+
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    filter[name] |  optional  | Parcial. Nombre de la región.
+    include |  optional  | Entidades: legislators.
+    sort |  optional  | Campo de ordenamiento. Por defecto ASC. Si se antepone "-" se ordena DESC.
+    page |  optional  | Número de página.
 
 <!-- END_9f8b25db943f4986cb344335635be033 -->
 
@@ -1104,6 +1196,11 @@ curl -X GET -G "/api/v1/regions/1"
 
 ```javascript
 const url = new URL("/api/v1/regions/1");
+
+    let params = {
+            "include": "",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -1134,6 +1231,11 @@ fetch(url, {
 ### HTTP Request
 `GET api/v1/regions/{region}`
 
+#### Query Parameters
+
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    include |  optional  | Entidades: legislators.
 
 <!-- END_151445cf5ffee34219bcb2dd6fe7e6a6 -->
 
@@ -1148,6 +1250,26 @@ curl -X GET -G "/api/v1/votings"
 
 ```javascript
 const url = new URL("/api/v1/votings");
+
+    let params = {
+            "filter[chamber]": "",
+            "filter[document_url]": "",
+            "filter[file_url]": "",
+            "filter[meeting]": "",
+            "filter[original_id]": "",
+            "filter[period]": "",
+            "filter[president_id]": "",
+            "filter[record]": "",
+            "filter[result]": "",
+            "filter[result_raw]": "",
+            "filter[source_url]": "",
+            "filter[title]": "",
+            "filter[type]": "",
+            "include": "",
+            "sort": "",
+            "page": "",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -1565,6 +1687,26 @@ fetch(url, {
 ### HTTP Request
 `GET api/v1/votings`
 
+#### Query Parameters
+
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    filter[chamber] |  optional  | Exacto. Cámara. Valores: deputies, senators.
+    filter[document_url] |  optional  | Parcial. URL del documento PDF relacionado.
+    filter[file_url] |  optional  | Parcial. URL del expediente relacionado.
+    filter[meeting] |  optional  | Exacto. Sesión/Reunión.
+    filter[original_id] |  optional  | Exacto. ID con el cual figura en la página oficial.
+    filter[period] |  optional  | Exacto. Período.
+    filter[president_id] |  optional  | Exacto. ID del legislador presidente de la sesión.
+    filter[record] |  optional  | Exacto. Acta.
+    filter[result] |  optional  | Exacto. Resultado de la votación. Valores: true, false, null.
+    filter[result_raw] |  optional  | Parcial. Resultado crudo tal como figura en el sitio oficial.
+    filter[source_url] |  optional  | Parcial. URL fuente del sitio oficial.
+    filter[title] |  optional  | Parcial. Título de la votación.
+    filter[type] |  optional  | Parcial. Tipo de votacion.
+    include |  optional  | Entidades: president, records.
+    sort |  optional  | Campo de ordenamiento. Por defecto ASC. Si se antepone "-" se ordena DESC.
+    page |  optional  | Número de página.
 
 <!-- END_8d990fbcac399511b255f14ae63b39b5 -->
 
@@ -1579,6 +1721,11 @@ curl -X GET -G "/api/v1/votings/1"
 
 ```javascript
 const url = new URL("/api/v1/votings/1");
+
+    let params = {
+            "include": "",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -1627,6 +1774,11 @@ fetch(url, {
 ### HTTP Request
 `GET api/v1/votings/{voting}`
 
+#### Query Parameters
+
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    include |  optional  | Entidades: president, records.
 
 <!-- END_b532eb6e166e7fdd3d95dcebae28551e -->
 
@@ -1641,6 +1793,20 @@ curl -X GET -G "/api/v1/votings/1/votes"
 
 ```javascript
 const url = new URL("/api/v1/votings/1/votes");
+
+    let params = {
+            "filter[legislator_id]": "",
+            "filter[party_id]": "",
+            "filter[region_id]": "",
+            "filter[video_url]": "",
+            "filter[vote]": "",
+            "filter[vote_raw]": "",
+            "filter[voting_id]": "",
+            "include": "",
+            "sort": "",
+            "page": "",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -1878,6 +2044,20 @@ fetch(url, {
 ### HTTP Request
 `GET api/v1/votings/{voting}/votes`
 
+#### Query Parameters
+
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    filter[legislator_id] |  optional  | Exacto. ID del legislador que votó.
+    filter[party_id] |  optional  | Exacto. ID del bloque por el cual votó.
+    filter[region_id] |  optional  | Exacto. ID de la región por la cual votó.
+    filter[video_url] |  optional  | Parcial. URL del video provisto por el sitio oficial.
+    filter[vote] |  optional  | Parcial. Voto. Valores: "affirmative", "negative", "abstention" o `null`.
+    filter[vote_raw] |  optional  | Parcial. Voto en texto crudo tal como figura en el sitio oficial.
+    filter[voting_id] |  optional  | Exacto. ID de la votación.
+    include |  optional  | Entidades: legislator, party, region, voting.
+    sort |  optional  | Campo de ordenamiento. Por defecto ASC. Si se antepone "-" se ordena DESC.
+    page |  optional  | Número de página.
 
 <!-- END_c87e5d8b04e9bb9a9c2092e998cd8ad3 -->
 
@@ -1892,6 +2072,11 @@ curl -X GET -G "/api/v1/votings/1/votes/1"
 
 ```javascript
 const url = new URL("/api/v1/votings/1/votes/1");
+
+    let params = {
+            "include": "",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -1928,6 +2113,11 @@ fetch(url, {
 ### HTTP Request
 `GET api/v1/votings/{voting}/votes/{vote}`
 
+#### Query Parameters
+
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    include |  optional  | Entidades: legislator, party, region, voting.
 
 <!-- END_79bf43f9195fe81465d288210bfb0898 -->
 
@@ -1942,6 +2132,20 @@ curl -X GET -G "/api/v1/votes"
 
 ```javascript
 const url = new URL("/api/v1/votes");
+
+    let params = {
+            "filter[legislator_id]": "",
+            "filter[party_id]": "",
+            "filter[region_id]": "",
+            "filter[video_url]": "",
+            "filter[vote]": "",
+            "filter[vote_raw]": "",
+            "filter[voting_id]": "",
+            "include": "",
+            "sort": "",
+            "page": "",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -2179,6 +2383,20 @@ fetch(url, {
 ### HTTP Request
 `GET api/v1/votes`
 
+#### Query Parameters
+
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    filter[legislator_id] |  optional  | Exacto. ID del legislador que votó.
+    filter[party_id] |  optional  | Exacto. ID del bloque por el cual votó.
+    filter[region_id] |  optional  | Exacto. ID de la región por la cual votó.
+    filter[video_url] |  optional  | Parcial. URL del video provisto por el sitio oficial.
+    filter[vote] |  optional  | Parcial. Voto. Valores: "affirmative", "negative", "abstention" o `null`.
+    filter[vote_raw] |  optional  | Parcial. Voto en texto crudo tal como figura en el sitio oficial.
+    filter[voting_id] |  optional  | Exacto. ID de la votación.
+    include |  optional  | Entidades: legislator, party, region, voting.
+    sort |  optional  | Campo de ordenamiento. Por defecto ASC. Si se antepone "-" se ordena DESC.
+    page |  optional  | Número de página.
 
 <!-- END_17e5a62dc41c242ac93d2d5e2b718045 -->
 
@@ -2193,6 +2411,11 @@ curl -X GET -G "/api/v1/votes/1"
 
 ```javascript
 const url = new URL("/api/v1/votes/1");
+
+    let params = {
+            "include": "",
+        };
+    Object.keys(params).forEach(key => url.searchParams.append(key, params[key]));
 
 let headers = {
     "Accept": "application/json",
@@ -2229,6 +2452,11 @@ fetch(url, {
 ### HTTP Request
 `GET api/v1/votes/{vote}`
 
+#### Query Parameters
+
+Parameter | Status | Description
+--------- | ------- | ------- | -----------
+    include |  optional  | Entidades: legislator, party, region, voting.
 
 <!-- END_49c12486174874310d1d5c5724de2a5f -->
 

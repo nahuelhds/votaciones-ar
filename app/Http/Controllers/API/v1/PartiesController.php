@@ -15,6 +15,13 @@ class PartiesController extends Controller
     /**
      * Listado de bloques
      *
+     * @queryParam filter[name] Parcial. Nombre del bloque. Example:
+     *
+     * @queryParam include Entidades: legislators. Example:
+     *
+     * @queryParam sort Campo de ordenamiento. Por defecto ASC. Si se antepone "-" se ordena DESC. Example:
+     * @queryParam page Número de página. Example:
+     *
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -47,6 +54,8 @@ class PartiesController extends Controller
 
     /**
      * Bloque
+     *
+     * @queryParam include Entidades: legislators. Example:
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response

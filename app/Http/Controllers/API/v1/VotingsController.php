@@ -16,6 +16,25 @@ class VotingsController extends Controller
     /**
      * Listado de votaciones
      *
+     * @queryParam filter[chamber] Exacto. Cámara. Valores: deputies, senators. Example:
+     * @queryParam filter[document_url] Parcial. URL del documento PDF relacionado. Example:
+     * @queryParam filter[file_url] Parcial. URL del expediente relacionado. Example:
+     * @queryParam filter[meeting] Exacto. Sesión/Reunión. Example:
+     * @queryParam filter[original_id] Exacto. ID con el cual figura en la página oficial. Example:
+     * @queryParam filter[period] Exacto. Período. Example:
+     * @queryParam filter[president_id] Exacto. ID del legislador presidente de la sesión. Example:
+     * @queryParam filter[record] Exacto. Acta. Example:
+     * @queryParam filter[result] Exacto. Resultado de la votación. Valores: true, false, null. Example:
+     * @queryParam filter[result_raw] Parcial. Resultado crudo tal como figura en el sitio oficial. Example:
+     * @queryParam filter[source_url] Parcial. URL fuente del sitio oficial. Example:
+     * @queryParam filter[title] Parcial. Título de la votación. Example:
+     * @queryParam filter[type] Parcial. Tipo de votacion. Example:
+     *
+     * @queryParam include Entidades: president, records. Example:
+     *
+     * @queryParam sort Campo de ordenamiento. Por defecto ASC. Si se antepone "-" se ordena DESC. Example:
+     * @queryParam page Número de página. Example:
+     *
      * @return \Illuminate\Http\Response
      */
     public function index()
@@ -41,6 +60,7 @@ class VotingsController extends Controller
 
         // Relations
         $resources->allowedIncludes([
+            'president',
             'records',
         ]);
 
@@ -74,6 +94,8 @@ class VotingsController extends Controller
     /**
      * Votación
      *
+     * @queryParam include Entidades: president, records. Example:
+     *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
@@ -83,6 +105,7 @@ class VotingsController extends Controller
 
         // Relations
         $resource->allowedIncludes([
+            'president',
             'records',
         ]);
 

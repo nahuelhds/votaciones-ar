@@ -15,15 +15,16 @@ class LegislatorsController extends Controller
     /**
      * Listado de legisladores
      *
-     * @queryParam filter[name] Parcial. Nombre del legislador. Example:
      * @queryParam filter[last_name] Parcial. Apellido del legislador. Example:
-     * @queryParam filter[type] Exacto. Cargo actual. Valores: deputy, senator. Example:
-     * @queryParam filter[party_id] Exacto. ID del bloque al que pertenece actualmente. Example:
+     * @queryParam filter[name] Parcial. Nombre del legislador. Example:
      * @queryParam filter[original_id] Exacto. ID con el cual figura en la página oficial. Example:
+     * @queryParam filter[party_id] Exacto. ID del bloque al que pertenece actualmente. Example:
+     * @queryParam filter[region_id] Exacto. ID de la región a la que pertenece actualmente. Example:
+     * @queryParam filter[type] Exacto. Cargo actual. Valores: deputy, senator. Example:
      *
      * @queryParam include Entidades: party, region. Example:
      *
-     * @queryParam sort Ordenamiento. Por defecto ASC. Si se antepone "-" se ordena DESC. Example:
+     * @queryParam sort Campo de ordenamiento. Por defecto ASC. Si se antepone "-" se ordena DESC. Example:
      * @queryParam page Número de página. Example:
      *
      * @return \Illuminate\Http\Response
@@ -38,6 +39,7 @@ class LegislatorsController extends Controller
             Filter::partial('last_name'),
             Filter::exact('type'),
             Filter::exact('party_id'),
+            Filter::exact('region_id'),
             Filter::exact('original_id'),
         ]);
 
@@ -63,6 +65,8 @@ class LegislatorsController extends Controller
 
     /**
      * Legislador
+     *
+     * @queryParam include Entidades: party, region. Example:
      *
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
