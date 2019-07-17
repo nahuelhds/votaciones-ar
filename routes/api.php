@@ -12,21 +12,32 @@
 */
 
 Route::namespace('API')->group(function () {
-    Route::middleware('auth:api')->group(function () {
-        Route::prefix('v1')->namespace('v1')->group(function () {
-            Route::apiResources([
-                'legislators' => 'LegislatorsController',
-                'parties' => 'PartiesController',
-                'votings' => 'VotingsController',
-                'votings/{voting}/votes' => 'VotingsVotesController'
-            ]);
-        });
+    Route::prefix('v1')->namespace('v1')->group(function () {
+        Route::apiResources([
+            'legislators' => 'LegislatorsController',
+            'legislators/{legislator}/votes' => 'VotingsVotesController',
+            'parties' => 'PartiesController',
+            'regions' => 'RegionsController',
+            'votings' => 'VotingsController',
+            'votings/{voting}/votes' => 'VotingsVotesController',
+            'votes' => 'VotingsVotesController'
+        ], ['only' => [
+            'index',
+            'show',
+        ]]);
+    });
 
+    Route::middleware('auth:api')->group(function () {
         Route::prefix('import/ar')->namespace('Import\AR')->group(function () {
             Route::prefix('deputies')->group(function () {
                 Route::post('voting', 'DeputiesController@voting');
                 Route::post('voting/{voting}/records', 'DeputiesController@records');
-                Route::post('voting/{voting}/votes', 'DeputiesController@votes');
+                Route::post('voting/{voting}/votes', 'DeputiesController@bulkVotes');
+            });
+
+            Route::prefix('senators')->group(function () {
+                Route::post('voting', 'SenatorsController@voting');
+                Route::post('voting/{voting}/votes', 'SenatorsController@bulkVotes');
             });
         });
 

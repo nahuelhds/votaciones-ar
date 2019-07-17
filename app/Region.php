@@ -10,4 +10,9 @@ class Region extends Model
     use SoftDeletes;
 
     protected $fillable = ['name'];
+
+    public function legislators()
+    {
+        return $this->hasMany(Legislator::class);
+    }
 }

@@ -2,22 +2,43 @@
 
 namespace App\Http\Controllers\API\v1;
 
-use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
 use App\Party;
 use App\Http\Resources\PartyCollection;
+use Spatie\QueryBuilder\QueryBuilder;
+use Spatie\QueryBuilder\Filter;
+use Illuminate\Http\Request;
 
 class PartiesController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Listado de bloques
+     *
+     * @queryParam filter[name] Parcial. Nombre del bloque. Example:
+     *
+     * @queryParam include Entidades: legislators. Example:
+     *
+     * @queryParam sort Campo de ordenamiento. Por defecto ASC. Si se antepone "-" se ordena DESC. Example:
+     * @queryParam page Número de página. Example:
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-        return new PartyCollection(Party::paginate());
+        $resources = QueryBuilder::for(Party::class);
+
+        // Filters
+        $resources->allowedFilters([
+            Filter::partial('name'),
+        ]);
+
+        // Relations
+        $resources->allowedIncludes([
+            'legislators',
+        ]);
+
+        return new PartyCollection($resources->paginate());
     }
 
     /**
@@ -26,20 +47,29 @@ class PartiesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        //
-    }
+    // public function store(Request $request)
+    // {
+    //     //
+    // }
 
     /**
-     * Display the specified resource.
+     * Bloque
      *
-     * @param  App\Party  $party
+     * @queryParam include Entidades: legislators. Example:
+     *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function show(Party $party)
+    public function show(Request $request)
     {
-        return $party;
+        $resource = QueryBuilder::for(Party::class);
+
+        // Relations
+        $resource->allowedIncludes([
+            'legislators',
+        ]);
+
+        return $resource->findOrFail($request->party);
     }
 
     /**
@@ -49,10 +79,10 @@ class PartiesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+    // public function update(Request $request, $id)
+    // {
+    //     //
+    // }
 
     /**
      * Remove the specified resource from storage.
@@ -60,8 +90,8 @@ class PartiesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
-    {
-        //
-    }
+    // public function destroy($id)
+    // {
+    //     //
+    // }
 }
