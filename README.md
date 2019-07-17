@@ -26,12 +26,6 @@ La idea es ir integrando otras fuentes de información y generar una web de cons
 
 Si te interesa colaborar, contactate conmigo a través de [mi cuenta en Twitter](http://medium.com/@nahuelhds).
 
-## Notas de desarrollo
-
-Para el filtrado de recursos del API, se utiliza [Spatie Laravel Query Builder](https://github.com/spatie/laravel-query-builder).
-
-Para la generación de la documentación del API, se utiliza se utiliza [Laravel API Documentation Generator](https://laravel-apidoc-generator.readthedocs.io/en/latest/).
-
 ---
 
 ## Apoyá el proyecto
