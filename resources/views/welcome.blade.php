@@ -47,10 +47,11 @@
 
             .content {
                 text-align: center;
+                margin-top: 10%;
             }
 
             .title {
-                font-size: 84px;
+                font-size: 64px;
             }
 
             .subtitle {
@@ -58,14 +59,14 @@
             }
 
             .call-to-action > p {
-                font-size: 1.25rem;
+                font-size: 1.1rem;
             }
 
             .call-to-action > a {
                 border: 2px solid transparent;
                 display: inline-block;
                 padding: 0.75rem 1.5rem;
-                font-size: 1.8rem;
+                font-size: 1.5rem;
                 line-height: 1.5;
                 border-radius: 0.75rem;
                 text-decoration: none;
@@ -99,7 +100,7 @@
         </style>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
+        <div class="flex-center position-ref">
             @if (Route::has('login'))
             <div class="top-right links">
                 @auth
@@ -128,7 +129,7 @@
                         ¿Sos un/a geek con inquietudes? 👨‍💻👩‍💻 <br />
                         El API ya está listo para consultar 🤓
                     </p>
-                    <a class="primary" href="./docs">
+                    <a class="primary" href="./docs/#general">
                         <i class="fas fa-book"></i> Referencia del API</a
                     >
                 </div>
