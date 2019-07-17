@@ -50,7 +50,7 @@
             }
 
             .title {
-                font-size: 84px;
+                font-size: 64px;
             }
 
             .subtitle {
@@ -58,14 +58,14 @@
             }
 
             .call-to-action > p {
-                font-size: 1.25rem;
+                font-size: 1.1rem;
             }
 
             .call-to-action > a {
                 border: 2px solid transparent;
                 display: inline-block;
                 padding: 0.75rem 1.5rem;
-                font-size: 1.8rem;
+                font-size: 1.5rem;
                 line-height: 1.5;
                 border-radius: 0.75rem;
                 text-decoration: none;
