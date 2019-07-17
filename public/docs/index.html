@@ -1,61 +1,76 @@
-<!doctype html>
+<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>Referencia del API - Cómo Votó</title>
+    <head>
+        <base href="/docs/" />
+        <meta charset="utf-8" />
+        <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, maximum-scale=1"
+        />
+        <title>Referencia del API - Cómo Votó</title>
 
-    <link rel="stylesheet" href="css/style.css" />
-    <script src="js/all.js"></script>
+        <link rel="stylesheet" href="css/style.css" />
+        <script src="js/all.js"></script>
 
+        <script>
+            $(function() {
+                setupLanguages(["bash", "javascript"]);
+            });
+        </script>
+    </head>
 
-          <script>
-        $(function() {
-            setupLanguages(["bash","javascript"]);
-        });
-      </script>
-      </head>
-
-  <body class="">
-    <a href="#" id="nav-button">
-      <span>
-        NAV
-        <img src="images/navbar.png" />
-      </span>
-    </a>
-    <div class="tocify-wrapper">
-        <img src="images/logo.png" />
-                    <div class="lang-selector">
-                                  <a href="#" data-language-name="bash">bash</a>
-                                  <a href="#" data-language-name="javascript">javascript</a>
-                            </div>
-                            <div class="search">
-              <input type="text" class="search" id="input-search" placeholder="Search">
+    <body class="">
+        <a href="#" id="nav-button">
+            <span>
+                NAV
+                <img src="images/navbar.png" />
+            </span>
+        </a>
+        <div class="tocify-wrapper">
+            <img src="images/logo.png" />
+            <div class="lang-selector">
+                <a href="#" data-language-name="bash">bash</a>
+                <a href="#" data-language-name="javascript">javascript</a>
+            </div>
+            <div class="search">
+                <input
+                    type="text"
+                    class="search"
+                    id="input-search"
+                    placeholder="Search"
+                />
             </div>
             <ul class="search-results"></ul>
-              <div id="toc">
-      </div>
-                    <ul class="toc-footer">
-                                  <li><a href='http://github.com/mpociot/documentarian'>Documentation Powered by Documentarian</a></li>
-                            </ul>
-            </div>
-    <div class="page-wrapper">
-      <div class="dark-box"></div>
-      <div class="content">
-          <!-- START_INFO -->
-<h1>Info</h1>
-<p>Welcome to the generated API reference.
-<a href="http://localhost/docs/collection.json">Get Postman Collection</a></p>
-<!-- END_INFO -->
-<h1>general</h1>
-<!-- START_91aeb85daa7d2136e84c4e9e1ef3475e -->
-<h2>Listado de legisladores</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "/api/v1/legislators" </code></pre>
-<pre><code class="language-javascript">const url = new URL("/api/v1/legislators");
+            <div id="toc"></div>
+            <ul class="toc-footer">
+                <li>
+                    <a href="http://github.com/mpociot/documentarian"
+                        >Documentation Powered by Documentarian</a
+                    >
+                </li>
+            </ul>
+        </div>
+        <div class="page-wrapper">
+            <div class="dark-box"></div>
+            <div class="content">
+                <!-- START_INFO -->
+                <h1>Info</h1>
+                <p>
+                    Welcome to the generated API reference.
+                    <a href="http://localhost/docs/collection.json"
+                        >Get Postman Collection</a
+                    >
+                </p>
+                <!-- END_INFO -->
+                <h1>general</h1>
+                <!-- START_91aeb85daa7d2136e84c4e9e1ef3475e -->
+                <h2>Listado de legisladores</h2>
+                <blockquote>
+                    <p>Example request:</p>
+                </blockquote>
+                <pre><code class="language-bash">curl -X GET -G "/api/v1/legislators" </code></pre>
+                <pre><code class="language-javascript">const url = new URL("/api/v1/legislators");
 
     let params = {
             "filter[last_name]": "",
@@ -81,10 +96,10 @@ fetch(url, {
 })
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">{
+                <blockquote>
+                    <p>Example response (200):</p>
+                </blockquote>
+                <pre><code class="language-json">{
     "data": [
         {
             "id": 1,
@@ -343,73 +358,87 @@ fetch(url, {
         "total": 1757
     }
 }</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET api/v1/legislators</code></p>
-<h4>Query Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>filter[last_name]</td>
-<td>optional</td>
-<td>Parcial. Apellido del legislador.</td>
-</tr>
-<tr>
-<td>filter[name]</td>
-<td>optional</td>
-<td>Parcial. Nombre del legislador.</td>
-</tr>
-<tr>
-<td>filter[original_id]</td>
-<td>optional</td>
-<td>Exacto. ID con el cual figura en la página oficial.</td>
-</tr>
-<tr>
-<td>filter[party_id]</td>
-<td>optional</td>
-<td>Exacto. ID del bloque al que pertenece actualmente.</td>
-</tr>
-<tr>
-<td>filter[region_id]</td>
-<td>optional</td>
-<td>Exacto. ID de la región a la que pertenece actualmente.</td>
-</tr>
-<tr>
-<td>filter[type]</td>
-<td>optional</td>
-<td>Exacto. Cargo actual. Valores: deputy, senator.</td>
-</tr>
-<tr>
-<td>include</td>
-<td>optional</td>
-<td>Entidades: party, region.</td>
-</tr>
-<tr>
-<td>sort</td>
-<td>optional</td>
-<td>Campo de ordenamiento. Por defecto ASC. Si se antepone &quot;-&quot; se ordena DESC.</td>
-</tr>
-<tr>
-<td>page</td>
-<td>optional</td>
-<td>Número de página.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_91aeb85daa7d2136e84c4e9e1ef3475e -->
-<!-- START_6c1cc684eb8408e56f36cc76f78ca353 -->
-<h2>Legislador</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "/api/v1/legislators/1" </code></pre>
-<pre><code class="language-javascript">const url = new URL("/api/v1/legislators/1");
+                <h3>HTTP Request</h3>
+                <p><code>GET api/v1/legislators</code></p>
+                <h4>Query Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Status</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>filter[last_name]</td>
+                            <td>optional</td>
+                            <td>Parcial. Apellido del legislador.</td>
+                        </tr>
+                        <tr>
+                            <td>filter[name]</td>
+                            <td>optional</td>
+                            <td>Parcial. Nombre del legislador.</td>
+                        </tr>
+                        <tr>
+                            <td>filter[original_id]</td>
+                            <td>optional</td>
+                            <td>
+                                Exacto. ID con el cual figura en la página
+                                oficial.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>filter[party_id]</td>
+                            <td>optional</td>
+                            <td>
+                                Exacto. ID del bloque al que pertenece
+                                actualmente.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>filter[region_id]</td>
+                            <td>optional</td>
+                            <td>
+                                Exacto. ID de la región a la que pertenece
+                                actualmente.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>filter[type]</td>
+                            <td>optional</td>
+                            <td>
+                                Exacto. Cargo actual. Valores: deputy, senator.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>include</td>
+                            <td>optional</td>
+                            <td>Entidades: party, region.</td>
+                        </tr>
+                        <tr>
+                            <td>sort</td>
+                            <td>optional</td>
+                            <td>
+                                Campo de ordenamiento. Por defecto ASC. Si se
+                                antepone &quot;-&quot; se ordena DESC.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>page</td>
+                            <td>optional</td>
+                            <td>Número de página.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- END_91aeb85daa7d2136e84c4e9e1ef3475e -->
+                <!-- START_6c1cc684eb8408e56f36cc76f78ca353 -->
+                <h2>Legislador</h2>
+                <blockquote>
+                    <p>Example request:</p>
+                </blockquote>
+                <pre><code class="language-bash">curl -X GET -G "/api/v1/legislators/1" </code></pre>
+                <pre><code class="language-javascript">const url = new URL("/api/v1/legislators/1");
 
     let params = {
             "include": "",
@@ -427,10 +456,10 @@ fetch(url, {
 })
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">{
+                <blockquote>
+                    <p>Example response (200):</p>
+                </blockquote>
+                <pre><code class="language-json">{
     "id": 1,
     "name": "Néstor Carlos",
     "last_name": "KIRCHNER",
@@ -446,33 +475,33 @@ fetch(url, {
     "updated_at": "2019-07-09 11:15:37",
     "deleted_at": null
 }</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET api/v1/legislators/{legislator}</code></p>
-<h4>Query Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>include</td>
-<td>optional</td>
-<td>Entidades: party, region.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_6c1cc684eb8408e56f36cc76f78ca353 -->
-<!-- START_ae7e81f8093dc7280ff0c2c2930d2c1f -->
-<h2>Listado de votos</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "/api/v1/legislators/1/votes" </code></pre>
-<pre><code class="language-javascript">const url = new URL("/api/v1/legislators/1/votes");
+                <h3>HTTP Request</h3>
+                <p><code>GET api/v1/legislators/{legislator}</code></p>
+                <h4>Query Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Status</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>include</td>
+                            <td>optional</td>
+                            <td>Entidades: party, region.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- END_6c1cc684eb8408e56f36cc76f78ca353 -->
+                <!-- START_ae7e81f8093dc7280ff0c2c2930d2c1f -->
+                <h2>Listado de votos</h2>
+                <blockquote>
+                    <p>Example request:</p>
+                </blockquote>
+                <pre><code class="language-bash">curl -X GET -G "/api/v1/legislators/1/votes" </code></pre>
+                <pre><code class="language-javascript">const url = new URL("/api/v1/legislators/1/votes");
 
     let params = {
             "filter[legislator_id]": "",
@@ -499,10 +528,10 @@ fetch(url, {
 })
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">{
+                <blockquote>
+                    <p>Example response (200):</p>
+                </blockquote>
+                <pre><code class="language-json">{
     "data": [
         {
             "id": 345525,
@@ -716,78 +745,93 @@ fetch(url, {
         "total": 51
     }
 }</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET api/v1/legislators/{legislator}/votes</code></p>
-<h4>Query Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>filter[legislator_id]</td>
-<td>optional</td>
-<td>Exacto. ID del legislador que votó.</td>
-</tr>
-<tr>
-<td>filter[party_id]</td>
-<td>optional</td>
-<td>Exacto. ID del bloque por el cual votó.</td>
-</tr>
-<tr>
-<td>filter[region_id]</td>
-<td>optional</td>
-<td>Exacto. ID de la región por la cual votó.</td>
-</tr>
-<tr>
-<td>filter[video_url]</td>
-<td>optional</td>
-<td>Parcial. URL del video provisto por el sitio oficial.</td>
-</tr>
-<tr>
-<td>filter[vote]</td>
-<td>optional</td>
-<td>Parcial. Voto. Valores: &quot;affirmative&quot;, &quot;negative&quot;, &quot;abstention&quot; o <code>null</code>.</td>
-</tr>
-<tr>
-<td>filter[vote_raw]</td>
-<td>optional</td>
-<td>Parcial. Voto en texto crudo tal como figura en el sitio oficial.</td>
-</tr>
-<tr>
-<td>filter[voting_id]</td>
-<td>optional</td>
-<td>Exacto. ID de la votación.</td>
-</tr>
-<tr>
-<td>include</td>
-<td>optional</td>
-<td>Entidades: legislator, party, region, voting.</td>
-</tr>
-<tr>
-<td>sort</td>
-<td>optional</td>
-<td>Campo de ordenamiento. Por defecto ASC. Si se antepone &quot;-&quot; se ordena DESC.</td>
-</tr>
-<tr>
-<td>page</td>
-<td>optional</td>
-<td>Número de página.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_ae7e81f8093dc7280ff0c2c2930d2c1f -->
-<!-- START_a225d65d2502b0e5edd7b66a4715148f -->
-<h2>Voto</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "/api/v1/legislators/1/votes/345525" </code></pre>
-<pre><code class="language-javascript">const url = new URL("/api/v1/legislators/1/votes/345525");
+                <h3>HTTP Request</h3>
+                <p><code>GET api/v1/legislators/{legislator}/votes</code></p>
+                <h4>Query Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Status</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>filter[legislator_id]</td>
+                            <td>optional</td>
+                            <td>Exacto. ID del legislador que votó.</td>
+                        </tr>
+                        <tr>
+                            <td>filter[party_id]</td>
+                            <td>optional</td>
+                            <td>Exacto. ID del bloque por el cual votó.</td>
+                        </tr>
+                        <tr>
+                            <td>filter[region_id]</td>
+                            <td>optional</td>
+                            <td>Exacto. ID de la región por la cual votó.</td>
+                        </tr>
+                        <tr>
+                            <td>filter[video_url]</td>
+                            <td>optional</td>
+                            <td>
+                                Parcial. URL del video provisto por el sitio
+                                oficial.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>filter[vote]</td>
+                            <td>optional</td>
+                            <td>
+                                Parcial. Voto. Valores: &quot;affirmative&quot;,
+                                &quot;negative&quot;, &quot;abstention&quot; o
+                                <code>null</code>.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>filter[vote_raw]</td>
+                            <td>optional</td>
+                            <td>
+                                Parcial. Voto en texto crudo tal como figura en
+                                el sitio oficial.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>filter[voting_id]</td>
+                            <td>optional</td>
+                            <td>Exacto. ID de la votación.</td>
+                        </tr>
+                        <tr>
+                            <td>include</td>
+                            <td>optional</td>
+                            <td>
+                                Entidades: legislator, party, region, voting.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>sort</td>
+                            <td>optional</td>
+                            <td>
+                                Campo de ordenamiento. Por defecto ASC. Si se
+                                antepone &quot;-&quot; se ordena DESC.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>page</td>
+                            <td>optional</td>
+                            <td>Número de página.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- END_ae7e81f8093dc7280ff0c2c2930d2c1f -->
+                <!-- START_a225d65d2502b0e5edd7b66a4715148f -->
+                <h2>Voto</h2>
+                <blockquote>
+                    <p>Example request:</p>
+                </blockquote>
+                <pre><code class="language-bash">curl -X GET -G "/api/v1/legislators/1/votes/345525" </code></pre>
+                <pre><code class="language-javascript">const url = new URL("/api/v1/legislators/1/votes/345525");
 
     let params = {
             "include": "",
@@ -805,10 +849,10 @@ fetch(url, {
 })
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">{
+                <blockquote>
+                    <p>Example response (200):</p>
+                </blockquote>
+                <pre><code class="language-json">{
     "id": 345525,
     "voting_id": 1345,
     "legislator_id": 1,
@@ -821,33 +865,39 @@ fetch(url, {
     "updated_at": "2019-03-21 14:22:36",
     "deleted_at": null
 }</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET api/v1/legislators/{legislator}/votes/{vote}</code></p>
-<h4>Query Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>include</td>
-<td>optional</td>
-<td>Entidades: legislator, party, region, voting.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_a225d65d2502b0e5edd7b66a4715148f -->
-<!-- START_376e7ef8a9d5b602e19b713fb35c2e95 -->
-<h2>Listado de bloques</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "/api/v1/parties" </code></pre>
-<pre><code class="language-javascript">const url = new URL("/api/v1/parties");
+                <h3>HTTP Request</h3>
+                <p>
+                    <code
+                        >GET api/v1/legislators/{legislator}/votes/{vote}</code
+                    >
+                </p>
+                <h4>Query Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Status</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>include</td>
+                            <td>optional</td>
+                            <td>
+                                Entidades: legislator, party, region, voting.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- END_a225d65d2502b0e5edd7b66a4715148f -->
+                <!-- START_376e7ef8a9d5b602e19b713fb35c2e95 -->
+                <h2>Listado de bloques</h2>
+                <blockquote>
+                    <p>Example request:</p>
+                </blockquote>
+                <pre><code class="language-bash">curl -X GET -G "/api/v1/parties" </code></pre>
+                <pre><code class="language-javascript">const url = new URL("/api/v1/parties");
 
     let params = {
             "filter[name]": "",
@@ -868,10 +918,10 @@ fetch(url, {
 })
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">{
+                <blockquote>
+                    <p>Example response (200):</p>
+                </blockquote>
+                <pre><code class="language-json">{
     "data": [
         {
             "id": 1,
@@ -1025,48 +1075,51 @@ fetch(url, {
         "total": 272
     }
 }</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET api/v1/parties</code></p>
-<h4>Query Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>filter[name]</td>
-<td>optional</td>
-<td>Parcial. Nombre del bloque.</td>
-</tr>
-<tr>
-<td>include</td>
-<td>optional</td>
-<td>Entidades: legislators.</td>
-</tr>
-<tr>
-<td>sort</td>
-<td>optional</td>
-<td>Campo de ordenamiento. Por defecto ASC. Si se antepone &quot;-&quot; se ordena DESC.</td>
-</tr>
-<tr>
-<td>page</td>
-<td>optional</td>
-<td>Número de página.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_376e7ef8a9d5b602e19b713fb35c2e95 -->
-<!-- START_fb016173185b7735350f8d3308073d7d -->
-<h2>Bloque</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "/api/v1/parties/1" </code></pre>
-<pre><code class="language-javascript">const url = new URL("/api/v1/parties/1");
+                <h3>HTTP Request</h3>
+                <p><code>GET api/v1/parties</code></p>
+                <h4>Query Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Status</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>filter[name]</td>
+                            <td>optional</td>
+                            <td>Parcial. Nombre del bloque.</td>
+                        </tr>
+                        <tr>
+                            <td>include</td>
+                            <td>optional</td>
+                            <td>Entidades: legislators.</td>
+                        </tr>
+                        <tr>
+                            <td>sort</td>
+                            <td>optional</td>
+                            <td>
+                                Campo de ordenamiento. Por defecto ASC. Si se
+                                antepone &quot;-&quot; se ordena DESC.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>page</td>
+                            <td>optional</td>
+                            <td>Número de página.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- END_376e7ef8a9d5b602e19b713fb35c2e95 -->
+                <!-- START_fb016173185b7735350f8d3308073d7d -->
+                <h2>Bloque</h2>
+                <blockquote>
+                    <p>Example request:</p>
+                </blockquote>
+                <pre><code class="language-bash">curl -X GET -G "/api/v1/parties/1" </code></pre>
+                <pre><code class="language-javascript">const url = new URL("/api/v1/parties/1");
 
     let params = {
             "include": "",
@@ -1084,10 +1137,10 @@ fetch(url, {
 })
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">{
+                <blockquote>
+                    <p>Example response (200):</p>
+                </blockquote>
+                <pre><code class="language-json">{
     "id": 1,
     "name": "Frente para la Victoria - PJ",
     "first_activity_at": "2005-12-06 16:16:00",
@@ -1096,33 +1149,33 @@ fetch(url, {
     "updated_at": "2019-07-09 19:31:14",
     "deleted_at": null
 }</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET api/v1/parties/{party}</code></p>
-<h4>Query Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>include</td>
-<td>optional</td>
-<td>Entidades: legislators.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_fb016173185b7735350f8d3308073d7d -->
-<!-- START_9f8b25db943f4986cb344335635be033 -->
-<h2>Listado de regiones</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "/api/v1/regions" </code></pre>
-<pre><code class="language-javascript">const url = new URL("/api/v1/regions");
+                <h3>HTTP Request</h3>
+                <p><code>GET api/v1/parties/{party}</code></p>
+                <h4>Query Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Status</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>include</td>
+                            <td>optional</td>
+                            <td>Entidades: legislators.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- END_fb016173185b7735350f8d3308073d7d -->
+                <!-- START_9f8b25db943f4986cb344335635be033 -->
+                <h2>Listado de regiones</h2>
+                <blockquote>
+                    <p>Example request:</p>
+                </blockquote>
+                <pre><code class="language-bash">curl -X GET -G "/api/v1/regions" </code></pre>
+                <pre><code class="language-javascript">const url = new URL("/api/v1/regions");
 
     let params = {
             "filter[name]": "",
@@ -1143,10 +1196,10 @@ fetch(url, {
 })
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">{
+                <blockquote>
+                    <p>Example response (200):</p>
+                </blockquote>
+                <pre><code class="language-json">{
     "data": [
         {
             "id": 1,
@@ -1270,48 +1323,51 @@ fetch(url, {
         "total": 25
     }
 }</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET api/v1/regions</code></p>
-<h4>Query Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>filter[name]</td>
-<td>optional</td>
-<td>Parcial. Nombre de la región.</td>
-</tr>
-<tr>
-<td>include</td>
-<td>optional</td>
-<td>Entidades: legislators.</td>
-</tr>
-<tr>
-<td>sort</td>
-<td>optional</td>
-<td>Campo de ordenamiento. Por defecto ASC. Si se antepone &quot;-&quot; se ordena DESC.</td>
-</tr>
-<tr>
-<td>page</td>
-<td>optional</td>
-<td>Número de página.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_9f8b25db943f4986cb344335635be033 -->
-<!-- START_151445cf5ffee34219bcb2dd6fe7e6a6 -->
-<h2>Región</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "/api/v1/regions/1" </code></pre>
-<pre><code class="language-javascript">const url = new URL("/api/v1/regions/1");
+                <h3>HTTP Request</h3>
+                <p><code>GET api/v1/regions</code></p>
+                <h4>Query Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Status</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>filter[name]</td>
+                            <td>optional</td>
+                            <td>Parcial. Nombre de la región.</td>
+                        </tr>
+                        <tr>
+                            <td>include</td>
+                            <td>optional</td>
+                            <td>Entidades: legislators.</td>
+                        </tr>
+                        <tr>
+                            <td>sort</td>
+                            <td>optional</td>
+                            <td>
+                                Campo de ordenamiento. Por defecto ASC. Si se
+                                antepone &quot;-&quot; se ordena DESC.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>page</td>
+                            <td>optional</td>
+                            <td>Número de página.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- END_9f8b25db943f4986cb344335635be033 -->
+                <!-- START_151445cf5ffee34219bcb2dd6fe7e6a6 -->
+                <h2>Región</h2>
+                <blockquote>
+                    <p>Example request:</p>
+                </blockquote>
+                <pre><code class="language-bash">curl -X GET -G "/api/v1/regions/1" </code></pre>
+                <pre><code class="language-javascript">const url = new URL("/api/v1/regions/1");
 
     let params = {
             "include": "",
@@ -1329,43 +1385,43 @@ fetch(url, {
 })
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">{
+                <blockquote>
+                    <p>Example response (200):</p>
+                </blockquote>
+                <pre><code class="language-json">{
     "id": 1,
     "name": "Buenos Aires",
     "created_at": "2019-03-21 03:08:28",
     "updated_at": "2019-03-21 03:08:28",
     "deleted_at": null
 }</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET api/v1/regions/{region}</code></p>
-<h4>Query Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>include</td>
-<td>optional</td>
-<td>Entidades: legislators.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_151445cf5ffee34219bcb2dd6fe7e6a6 -->
-<!-- START_8d990fbcac399511b255f14ae63b39b5 -->
-<h2>Listado de votaciones</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "/api/v1/votings" </code></pre>
-<pre><code class="language-javascript">const url = new URL("/api/v1/votings");
+                <h3>HTTP Request</h3>
+                <p><code>GET api/v1/regions/{region}</code></p>
+                <h4>Query Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Status</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>include</td>
+                            <td>optional</td>
+                            <td>Entidades: legislators.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- END_151445cf5ffee34219bcb2dd6fe7e6a6 -->
+                <!-- START_8d990fbcac399511b255f14ae63b39b5 -->
+                <h2>Listado de votaciones</h2>
+                <blockquote>
+                    <p>Example request:</p>
+                </blockquote>
+                <pre><code class="language-bash">curl -X GET -G "/api/v1/votings" </code></pre>
+                <pre><code class="language-javascript">const url = new URL("/api/v1/votings");
 
     let params = {
             "filter[chamber]": "",
@@ -1398,10 +1454,10 @@ fetch(url, {
 })
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">{
+                <blockquote>
+                    <p>Example response (200):</p>
+                </blockquote>
+                <pre><code class="language-json">{
     "data": [
         {
             "id": 1,
@@ -1795,108 +1851,125 @@ fetch(url, {
         "total": 3395
     }
 }</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET api/v1/votings</code></p>
-<h4>Query Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>filter[chamber]</td>
-<td>optional</td>
-<td>Exacto. Cámara. Valores: deputies, senators.</td>
-</tr>
-<tr>
-<td>filter[document_url]</td>
-<td>optional</td>
-<td>Parcial. URL del documento PDF relacionado.</td>
-</tr>
-<tr>
-<td>filter[file_url]</td>
-<td>optional</td>
-<td>Parcial. URL del expediente relacionado.</td>
-</tr>
-<tr>
-<td>filter[meeting]</td>
-<td>optional</td>
-<td>Exacto. Sesión/Reunión.</td>
-</tr>
-<tr>
-<td>filter[original_id]</td>
-<td>optional</td>
-<td>Exacto. ID con el cual figura en la página oficial.</td>
-</tr>
-<tr>
-<td>filter[period]</td>
-<td>optional</td>
-<td>Exacto. Período.</td>
-</tr>
-<tr>
-<td>filter[president_id]</td>
-<td>optional</td>
-<td>Exacto. ID del legislador presidente de la sesión.</td>
-</tr>
-<tr>
-<td>filter[record]</td>
-<td>optional</td>
-<td>Exacto. Acta.</td>
-</tr>
-<tr>
-<td>filter[result]</td>
-<td>optional</td>
-<td>Exacto. Resultado de la votación. Valores: true, false, null.</td>
-</tr>
-<tr>
-<td>filter[result_raw]</td>
-<td>optional</td>
-<td>Parcial. Resultado crudo tal como figura en el sitio oficial.</td>
-</tr>
-<tr>
-<td>filter[source_url]</td>
-<td>optional</td>
-<td>Parcial. URL fuente del sitio oficial.</td>
-</tr>
-<tr>
-<td>filter[title]</td>
-<td>optional</td>
-<td>Parcial. Título de la votación.</td>
-</tr>
-<tr>
-<td>filter[type]</td>
-<td>optional</td>
-<td>Parcial. Tipo de votacion.</td>
-</tr>
-<tr>
-<td>include</td>
-<td>optional</td>
-<td>Entidades: president, records.</td>
-</tr>
-<tr>
-<td>sort</td>
-<td>optional</td>
-<td>Campo de ordenamiento. Por defecto ASC. Si se antepone &quot;-&quot; se ordena DESC.</td>
-</tr>
-<tr>
-<td>page</td>
-<td>optional</td>
-<td>Número de página.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_8d990fbcac399511b255f14ae63b39b5 -->
-<!-- START_b532eb6e166e7fdd3d95dcebae28551e -->
-<h2>Votación</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "/api/v1/votings/1" </code></pre>
-<pre><code class="language-javascript">const url = new URL("/api/v1/votings/1");
+                <h3>HTTP Request</h3>
+                <p><code>GET api/v1/votings</code></p>
+                <h4>Query Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Status</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>filter[chamber]</td>
+                            <td>optional</td>
+                            <td>
+                                Exacto. Cámara. Valores: deputies, senators.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>filter[document_url]</td>
+                            <td>optional</td>
+                            <td>Parcial. URL del documento PDF relacionado.</td>
+                        </tr>
+                        <tr>
+                            <td>filter[file_url]</td>
+                            <td>optional</td>
+                            <td>Parcial. URL del expediente relacionado.</td>
+                        </tr>
+                        <tr>
+                            <td>filter[meeting]</td>
+                            <td>optional</td>
+                            <td>Exacto. Sesión/Reunión.</td>
+                        </tr>
+                        <tr>
+                            <td>filter[original_id]</td>
+                            <td>optional</td>
+                            <td>
+                                Exacto. ID con el cual figura en la página
+                                oficial.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>filter[period]</td>
+                            <td>optional</td>
+                            <td>Exacto. Período.</td>
+                        </tr>
+                        <tr>
+                            <td>filter[president_id]</td>
+                            <td>optional</td>
+                            <td>
+                                Exacto. ID del legislador presidente de la
+                                sesión.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>filter[record]</td>
+                            <td>optional</td>
+                            <td>Exacto. Acta.</td>
+                        </tr>
+                        <tr>
+                            <td>filter[result]</td>
+                            <td>optional</td>
+                            <td>
+                                Exacto. Resultado de la votación. Valores: true,
+                                false, null.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>filter[result_raw]</td>
+                            <td>optional</td>
+                            <td>
+                                Parcial. Resultado crudo tal como figura en el
+                                sitio oficial.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>filter[source_url]</td>
+                            <td>optional</td>
+                            <td>Parcial. URL fuente del sitio oficial.</td>
+                        </tr>
+                        <tr>
+                            <td>filter[title]</td>
+                            <td>optional</td>
+                            <td>Parcial. Título de la votación.</td>
+                        </tr>
+                        <tr>
+                            <td>filter[type]</td>
+                            <td>optional</td>
+                            <td>Parcial. Tipo de votacion.</td>
+                        </tr>
+                        <tr>
+                            <td>include</td>
+                            <td>optional</td>
+                            <td>Entidades: president, records.</td>
+                        </tr>
+                        <tr>
+                            <td>sort</td>
+                            <td>optional</td>
+                            <td>
+                                Campo de ordenamiento. Por defecto ASC. Si se
+                                antepone &quot;-&quot; se ordena DESC.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>page</td>
+                            <td>optional</td>
+                            <td>Número de página.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- END_8d990fbcac399511b255f14ae63b39b5 -->
+                <!-- START_b532eb6e166e7fdd3d95dcebae28551e -->
+                <h2>Votación</h2>
+                <blockquote>
+                    <p>Example request:</p>
+                </blockquote>
+                <pre><code class="language-bash">curl -X GET -G "/api/v1/votings/1" </code></pre>
+                <pre><code class="language-javascript">const url = new URL("/api/v1/votings/1");
 
     let params = {
             "include": "",
@@ -1914,10 +1987,10 @@ fetch(url, {
 })
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">{
+                <blockquote>
+                    <p>Example response (200):</p>
+                </blockquote>
+                <pre><code class="language-json">{
     "id": 1,
     "chamber": "deputies",
     "original_id": 3641,
@@ -1942,33 +2015,33 @@ fetch(url, {
     "updated_at": "2019-03-23 17:42:36",
     "deleted_at": null
 }</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET api/v1/votings/{voting}</code></p>
-<h4>Query Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>include</td>
-<td>optional</td>
-<td>Entidades: president, records.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_b532eb6e166e7fdd3d95dcebae28551e -->
-<!-- START_c87e5d8b04e9bb9a9c2092e998cd8ad3 -->
-<h2>Listado de votos</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "/api/v1/votings/1/votes" </code></pre>
-<pre><code class="language-javascript">const url = new URL("/api/v1/votings/1/votes");
+                <h3>HTTP Request</h3>
+                <p><code>GET api/v1/votings/{voting}</code></p>
+                <h4>Query Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Status</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>include</td>
+                            <td>optional</td>
+                            <td>Entidades: president, records.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- END_b532eb6e166e7fdd3d95dcebae28551e -->
+                <!-- START_c87e5d8b04e9bb9a9c2092e998cd8ad3 -->
+                <h2>Listado de votos</h2>
+                <blockquote>
+                    <p>Example request:</p>
+                </blockquote>
+                <pre><code class="language-bash">curl -X GET -G "/api/v1/votings/1/votes" </code></pre>
+                <pre><code class="language-javascript">const url = new URL("/api/v1/votings/1/votes");
 
     let params = {
             "filter[legislator_id]": "",
@@ -1995,10 +2068,10 @@ fetch(url, {
 })
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">{
+                <blockquote>
+                    <p>Example response (200):</p>
+                </blockquote>
+                <pre><code class="language-json">{
     "data": [
         {
             "id": 1,
@@ -2212,78 +2285,93 @@ fetch(url, {
         "total": 257
     }
 }</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET api/v1/votings/{voting}/votes</code></p>
-<h4>Query Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>filter[legislator_id]</td>
-<td>optional</td>
-<td>Exacto. ID del legislador que votó.</td>
-</tr>
-<tr>
-<td>filter[party_id]</td>
-<td>optional</td>
-<td>Exacto. ID del bloque por el cual votó.</td>
-</tr>
-<tr>
-<td>filter[region_id]</td>
-<td>optional</td>
-<td>Exacto. ID de la región por la cual votó.</td>
-</tr>
-<tr>
-<td>filter[video_url]</td>
-<td>optional</td>
-<td>Parcial. URL del video provisto por el sitio oficial.</td>
-</tr>
-<tr>
-<td>filter[vote]</td>
-<td>optional</td>
-<td>Parcial. Voto. Valores: &quot;affirmative&quot;, &quot;negative&quot;, &quot;abstention&quot; o <code>null</code>.</td>
-</tr>
-<tr>
-<td>filter[vote_raw]</td>
-<td>optional</td>
-<td>Parcial. Voto en texto crudo tal como figura en el sitio oficial.</td>
-</tr>
-<tr>
-<td>filter[voting_id]</td>
-<td>optional</td>
-<td>Exacto. ID de la votación.</td>
-</tr>
-<tr>
-<td>include</td>
-<td>optional</td>
-<td>Entidades: legislator, party, region, voting.</td>
-</tr>
-<tr>
-<td>sort</td>
-<td>optional</td>
-<td>Campo de ordenamiento. Por defecto ASC. Si se antepone &quot;-&quot; se ordena DESC.</td>
-</tr>
-<tr>
-<td>page</td>
-<td>optional</td>
-<td>Número de página.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_c87e5d8b04e9bb9a9c2092e998cd8ad3 -->
-<!-- START_79bf43f9195fe81465d288210bfb0898 -->
-<h2>Voto</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "/api/v1/votings/1/votes/1" </code></pre>
-<pre><code class="language-javascript">const url = new URL("/api/v1/votings/1/votes/1");
+                <h3>HTTP Request</h3>
+                <p><code>GET api/v1/votings/{voting}/votes</code></p>
+                <h4>Query Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Status</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>filter[legislator_id]</td>
+                            <td>optional</td>
+                            <td>Exacto. ID del legislador que votó.</td>
+                        </tr>
+                        <tr>
+                            <td>filter[party_id]</td>
+                            <td>optional</td>
+                            <td>Exacto. ID del bloque por el cual votó.</td>
+                        </tr>
+                        <tr>
+                            <td>filter[region_id]</td>
+                            <td>optional</td>
+                            <td>Exacto. ID de la región por la cual votó.</td>
+                        </tr>
+                        <tr>
+                            <td>filter[video_url]</td>
+                            <td>optional</td>
+                            <td>
+                                Parcial. URL del video provisto por el sitio
+                                oficial.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>filter[vote]</td>
+                            <td>optional</td>
+                            <td>
+                                Parcial. Voto. Valores: &quot;affirmative&quot;,
+                                &quot;negative&quot;, &quot;abstention&quot; o
+                                <code>null</code>.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>filter[vote_raw]</td>
+                            <td>optional</td>
+                            <td>
+                                Parcial. Voto en texto crudo tal como figura en
+                                el sitio oficial.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>filter[voting_id]</td>
+                            <td>optional</td>
+                            <td>Exacto. ID de la votación.</td>
+                        </tr>
+                        <tr>
+                            <td>include</td>
+                            <td>optional</td>
+                            <td>
+                                Entidades: legislator, party, region, voting.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>sort</td>
+                            <td>optional</td>
+                            <td>
+                                Campo de ordenamiento. Por defecto ASC. Si se
+                                antepone &quot;-&quot; se ordena DESC.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>page</td>
+                            <td>optional</td>
+                            <td>Número de página.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- END_c87e5d8b04e9bb9a9c2092e998cd8ad3 -->
+                <!-- START_79bf43f9195fe81465d288210bfb0898 -->
+                <h2>Voto</h2>
+                <blockquote>
+                    <p>Example request:</p>
+                </blockquote>
+                <pre><code class="language-bash">curl -X GET -G "/api/v1/votings/1/votes/1" </code></pre>
+                <pre><code class="language-javascript">const url = new URL("/api/v1/votings/1/votes/1");
 
     let params = {
             "include": "",
@@ -2301,10 +2389,10 @@ fetch(url, {
 })
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">{
+                <blockquote>
+                    <p>Example response (200):</p>
+                </blockquote>
+                <pre><code class="language-json">{
     "id": 1,
     "voting_id": 1,
     "legislator_id": 3,
@@ -2317,33 +2405,35 @@ fetch(url, {
     "updated_at": "2019-03-21 03:09:25",
     "deleted_at": null
 }</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET api/v1/votings/{voting}/votes/{vote}</code></p>
-<h4>Query Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>include</td>
-<td>optional</td>
-<td>Entidades: legislator, party, region, voting.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_79bf43f9195fe81465d288210bfb0898 -->
-<!-- START_17e5a62dc41c242ac93d2d5e2b718045 -->
-<h2>Listado de votos</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "/api/v1/votes" </code></pre>
-<pre><code class="language-javascript">const url = new URL("/api/v1/votes");
+                <h3>HTTP Request</h3>
+                <p><code>GET api/v1/votings/{voting}/votes/{vote}</code></p>
+                <h4>Query Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Status</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>include</td>
+                            <td>optional</td>
+                            <td>
+                                Entidades: legislator, party, region, voting.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- END_79bf43f9195fe81465d288210bfb0898 -->
+                <!-- START_17e5a62dc41c242ac93d2d5e2b718045 -->
+                <h2>Listado de votos</h2>
+                <blockquote>
+                    <p>Example request:</p>
+                </blockquote>
+                <pre><code class="language-bash">curl -X GET -G "/api/v1/votes" </code></pre>
+                <pre><code class="language-javascript">const url = new URL("/api/v1/votes");
 
     let params = {
             "filter[legislator_id]": "",
@@ -2370,10 +2460,10 @@ fetch(url, {
 })
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">{
+                <blockquote>
+                    <p>Example response (200):</p>
+                </blockquote>
+                <pre><code class="language-json">{
     "data": [
         {
             "id": 1,
@@ -2587,78 +2677,93 @@ fetch(url, {
         "total": 675010
     }
 }</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET api/v1/votes</code></p>
-<h4>Query Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>filter[legislator_id]</td>
-<td>optional</td>
-<td>Exacto. ID del legislador que votó.</td>
-</tr>
-<tr>
-<td>filter[party_id]</td>
-<td>optional</td>
-<td>Exacto. ID del bloque por el cual votó.</td>
-</tr>
-<tr>
-<td>filter[region_id]</td>
-<td>optional</td>
-<td>Exacto. ID de la región por la cual votó.</td>
-</tr>
-<tr>
-<td>filter[video_url]</td>
-<td>optional</td>
-<td>Parcial. URL del video provisto por el sitio oficial.</td>
-</tr>
-<tr>
-<td>filter[vote]</td>
-<td>optional</td>
-<td>Parcial. Voto. Valores: &quot;affirmative&quot;, &quot;negative&quot;, &quot;abstention&quot; o <code>null</code>.</td>
-</tr>
-<tr>
-<td>filter[vote_raw]</td>
-<td>optional</td>
-<td>Parcial. Voto en texto crudo tal como figura en el sitio oficial.</td>
-</tr>
-<tr>
-<td>filter[voting_id]</td>
-<td>optional</td>
-<td>Exacto. ID de la votación.</td>
-</tr>
-<tr>
-<td>include</td>
-<td>optional</td>
-<td>Entidades: legislator, party, region, voting.</td>
-</tr>
-<tr>
-<td>sort</td>
-<td>optional</td>
-<td>Campo de ordenamiento. Por defecto ASC. Si se antepone &quot;-&quot; se ordena DESC.</td>
-</tr>
-<tr>
-<td>page</td>
-<td>optional</td>
-<td>Número de página.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_17e5a62dc41c242ac93d2d5e2b718045 -->
-<!-- START_49c12486174874310d1d5c5724de2a5f -->
-<h2>Voto</h2>
-<blockquote>
-<p>Example request:</p>
-</blockquote>
-<pre><code class="language-bash">curl -X GET -G "/api/v1/votes/1" </code></pre>
-<pre><code class="language-javascript">const url = new URL("/api/v1/votes/1");
+                <h3>HTTP Request</h3>
+                <p><code>GET api/v1/votes</code></p>
+                <h4>Query Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Status</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>filter[legislator_id]</td>
+                            <td>optional</td>
+                            <td>Exacto. ID del legislador que votó.</td>
+                        </tr>
+                        <tr>
+                            <td>filter[party_id]</td>
+                            <td>optional</td>
+                            <td>Exacto. ID del bloque por el cual votó.</td>
+                        </tr>
+                        <tr>
+                            <td>filter[region_id]</td>
+                            <td>optional</td>
+                            <td>Exacto. ID de la región por la cual votó.</td>
+                        </tr>
+                        <tr>
+                            <td>filter[video_url]</td>
+                            <td>optional</td>
+                            <td>
+                                Parcial. URL del video provisto por el sitio
+                                oficial.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>filter[vote]</td>
+                            <td>optional</td>
+                            <td>
+                                Parcial. Voto. Valores: &quot;affirmative&quot;,
+                                &quot;negative&quot;, &quot;abstention&quot; o
+                                <code>null</code>.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>filter[vote_raw]</td>
+                            <td>optional</td>
+                            <td>
+                                Parcial. Voto en texto crudo tal como figura en
+                                el sitio oficial.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>filter[voting_id]</td>
+                            <td>optional</td>
+                            <td>Exacto. ID de la votación.</td>
+                        </tr>
+                        <tr>
+                            <td>include</td>
+                            <td>optional</td>
+                            <td>
+                                Entidades: legislator, party, region, voting.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>sort</td>
+                            <td>optional</td>
+                            <td>
+                                Campo de ordenamiento. Por defecto ASC. Si se
+                                antepone &quot;-&quot; se ordena DESC.
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>page</td>
+                            <td>optional</td>
+                            <td>Número de página.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- END_17e5a62dc41c242ac93d2d5e2b718045 -->
+                <!-- START_49c12486174874310d1d5c5724de2a5f -->
+                <h2>Voto</h2>
+                <blockquote>
+                    <p>Example request:</p>
+                </blockquote>
+                <pre><code class="language-bash">curl -X GET -G "/api/v1/votes/1" </code></pre>
+                <pre><code class="language-javascript">const url = new URL("/api/v1/votes/1");
 
     let params = {
             "include": "",
@@ -2676,10 +2781,10 @@ fetch(url, {
 })
     .then(response =&gt; response.json())
     .then(json =&gt; console.log(json));</code></pre>
-<blockquote>
-<p>Example response (200):</p>
-</blockquote>
-<pre><code class="language-json">{
+                <blockquote>
+                    <p>Example response (200):</p>
+                </blockquote>
+                <pre><code class="language-json">{
     "id": 1,
     "voting_id": 1,
     "legislator_id": 3,
@@ -2692,33 +2797,35 @@ fetch(url, {
     "updated_at": "2019-03-21 03:09:25",
     "deleted_at": null
 }</code></pre>
-<h3>HTTP Request</h3>
-<p><code>GET api/v1/votes/{vote}</code></p>
-<h4>Query Parameters</h4>
-<table>
-<thead>
-<tr>
-<th>Parameter</th>
-<th>Status</th>
-<th>Description</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>include</td>
-<td>optional</td>
-<td>Entidades: legislator, party, region, voting.</td>
-</tr>
-</tbody>
-</table>
-<!-- END_49c12486174874310d1d5c5724de2a5f -->
-      </div>
-      <div class="dark-box">
-                        <div class="lang-selector">
-                                    <a href="#" data-language-name="bash">bash</a>
-                                    <a href="#" data-language-name="javascript">javascript</a>
-                              </div>
+                <h3>HTTP Request</h3>
+                <p><code>GET api/v1/votes/{vote}</code></p>
+                <h4>Query Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Status</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>include</td>
+                            <td>optional</td>
+                            <td>
+                                Entidades: legislator, party, region, voting.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <!-- END_49c12486174874310d1d5c5724de2a5f -->
+            </div>
+            <div class="dark-box">
+                <div class="lang-selector">
+                    <a href="#" data-language-name="bash">bash</a>
+                    <a href="#" data-language-name="javascript">javascript</a>
                 </div>
-    </div>
-  </body>
+            </div>
+        </div>
+    </body>
 </html>
