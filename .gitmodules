@@ -1,0 +1,3 @@
+[submodule ".laradock-votaciones-ar"]
+	path = .laradock-votaciones-ar
+	url = https://github.com/nahuelhds/votaciones-ar-laradock
