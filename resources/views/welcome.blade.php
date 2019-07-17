@@ -128,7 +128,7 @@
                         ¿Sos un/a geek con inquietudes? 👨‍💻👩‍💻 <br />
                         El API ya está listo para consultar 🤓
                     </p>
-                    <a class="primary" href="./docs">
+                    <a class="primary" href="./docs/#general">
                         <i class="fas fa-book"></i> Referencia del API</a
                     >
                 </div>
