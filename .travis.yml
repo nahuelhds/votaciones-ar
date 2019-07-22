@@ -8,7 +8,7 @@ addons:
 
 before_script:
   - cp .env.travis .env
-  - mysql -u root --password="" -e 'create database votings_test;'
+  - sudo mysql -e 'create database votings_test;'
   - composer self-update
   - composer install --no-interaction
 
