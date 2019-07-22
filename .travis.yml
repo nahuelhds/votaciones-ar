@@ -6,17 +6,18 @@ php:
 addons:
   mariadb: 10.4
 
-before_script:
-  - cp .env.travis .env
-  - sudo mysql -e 'create database votings_test;'
-  - composer self-update
-  - composer install --no-interaction
-
 cache:
   directories:
     - node_modules
     - vendor
 
-script:
+before_script:
+  - cp .env.travis .env
+  - sudo mysql -e 'create database votings_test;'
+  - composer self-update
+  - composer install --no-interaction
   - php artisan key:generate
+  - php artisan migrate
+
+script:
   - vendor/bin/phpunit
