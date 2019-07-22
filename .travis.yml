@@ -1,7 +1,9 @@
 dist: precise
 
-language: php
+git:
+  submodules: false
 
+language: php
 php:
   - 7.2
 
