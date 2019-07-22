@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/nahuelhds/votaciones-ar.svg?branch=master)](https://travis-ci.org/nahuelhds/votaciones-ar)
+
 # API de Votaciones de Argentina
 
 REST API para consulta de votaciones de Argentina.
