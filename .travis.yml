@@ -1,3 +1,5 @@
+dist: precise
+
 language: php
 
 php:
@@ -12,10 +14,8 @@ cache:
     - vendor
 
 before_script:
-  - cp .env.testing .env
-  - sudo mysql -e 'CREATE DATABASE votings_test;'
-  - sudo mysql -e 'CREATE USER votings_test IDENTIFIED BY "votings_test";'
-  - sudo mysql -e 'GRANT ALL ON *.* TO votings_test@localhost; FLUSH PRIVILEGES;'
+  - cp .env.travis .env
+  - sudo mysql -e 'CREATE DATABASE votings_travis;'
   - composer self-update
   - composer install --no-interaction
   - php artisan key:generate

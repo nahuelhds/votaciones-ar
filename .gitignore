@@ -5,9 +5,8 @@
 /storage/logs-production
 /vendor
 .env
-.env.*
-!.env.example
-!.env.testing
+.env.docker
+.env.prod
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
