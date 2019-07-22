@@ -12,12 +12,14 @@ cache:
     - vendor
 
 before_script:
-  - cp .env.travis .env
-  - sudo mysql -e 'create database votings_test;'
+  - cp .env.testing .env
+  - sudo mysql -e 'CREATE DATABASE votings_test;'
+  - sudo mysql -e "GRANT ALL ON votings_test.* TO 'travis'@'localhost';"
+  - sudo mysql -e "FLUSH PRIVILEGES;"
   - composer self-update
   - composer install --no-interaction
   - php artisan key:generate
-  - php artisan migrate
+  - php artisan migrate --no-interaction -vvv
 
 script:
   - vendor/bin/phpunit
