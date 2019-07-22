@@ -21,5 +21,4 @@ before_script:
   - php artisan migrate --no-interaction -vvv
 
 script:
-  - php artisan key:generate
   - vendor/bin/phpunit
