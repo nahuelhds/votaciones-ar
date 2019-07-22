@@ -1,5 +1,3 @@
-dist: precise
-
 language: php
 
 php:
@@ -18,8 +16,8 @@ before_script:
   - sudo mysql -e 'CREATE DATABASE votings_travis;'
   - composer self-update
   - composer install --no-interaction
-  - php artisan key:generate
   - php artisan migrate --no-interaction -vvv
 
 script:
+  - php artisan key:generate
   - vendor/bin/phpunit
