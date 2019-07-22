@@ -13,8 +13,8 @@ cache:
 
 before_script:
   - cp .env.testing .env
-  - sudo mysql -e 'CREATE DATABASE votings_test;'
-  - sudo mysql -e 'CREATE USER 'votings_test' IDENTIFIED BY 'votings_test';
+  - sudo mysql -e "CREATE DATABASE votings_test;"
+  - sudo mysql -e "CREATE USER 'votings_test' IDENTIFIED BY 'votings_test';"
   - sudo mysql -e "GRANT ALL ON votings_test.* TO 'votings_test'@'localhost';"
   - sudo mysql -e "FLUSH PRIVILEGES;"
   - composer self-update
