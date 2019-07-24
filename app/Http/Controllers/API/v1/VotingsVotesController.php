@@ -5,13 +5,10 @@ namespace App\Http\Controllers\API\v1;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
-use App\Voting;
 use App\VotingVote;
 use App\Http\Resources\VotingVoteCollection;
-
 use Spatie\QueryBuilder\QueryBuilder;
 use Spatie\QueryBuilder\Filter;
-
 
 class VotingsVotesController extends Controller
 {
