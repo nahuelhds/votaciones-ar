@@ -1,18 +1,16 @@
 <?php
 
-use Illuminate\Support\Facades\Schema;
-use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Seeder;
+use App\Region;
 
-class FillRegions extends Migration
+class RegionsTableSeeder extends Seeder
 {
     /**
-     * Run the migrations.
+     * Run the database seeds.
      *
      * @return void
      */
-    public function up()
+    public function run()
     {
         $names = [
             'Buenos Aires',
@@ -42,21 +40,9 @@ class FillRegions extends Migration
         ];
 
         foreach ($names as $name) {
-            $region = new \App\Region();
-            $region->name = $name;
-            $region->save();
+            Region::updateOrCreate([
+                'name' => $name
+            ]);
         }
-    }
-
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
-    public function down()
-    {
-        Schema::disableForeignKeyConstraints();
-        DB::table('regions')->truncate();
-        Schema::enableForeignKeyConstraints();
     }
 }
