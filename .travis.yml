@@ -20,6 +20,7 @@ before_script:
   - sudo mysql -e 'CREATE DATABASE testing;'
   - composer self-update
   - composer install --no-interaction
+  - composer lint
   - php artisan key:generate
   - php artisan migrate --no-interaction -vvv
 
