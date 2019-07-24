@@ -149,14 +149,7 @@ class SenatorsController extends Controller
         ]);
 
         // Actualizo posibles fechas de primera y/o última actividad
-        if (is_null($party->first_activity_at) || $party->first_activity_at > $voting->voted_at) {
-            $party->first_activity_at = $voting->voted_at;
-            $party->save();
-        }
-        if ($party->last_activity_at < $voting->voted_at) {
-            $party->last_activity_at = $voting->voted_at;
-            $party->save();
-        }
+        $this->checkPartyActivityDates($party, $voting);
 
         $names = explode(",", $voteData->legislator);
         $legislator = Legislator::firstOrNew([
@@ -164,38 +157,8 @@ class SenatorsController extends Controller
             'last_name' => trim($names[0])
         ]);
 
-        // @TODO: ante el cambio de partido o provincia
-        // registrarlo en el historial del legislador
-
         // Si es un nuevo legislador, lo registro
-        if (!$legislator->id) {
-            $legislator->type = Legislator::TYPE_SENATOR;
-            $legislator->original_id = $voteData->legislatorId;
-            $legislator->party_id = $party->id;
-            $legislator->region_id = $region->id;
-            $legislator->profile_url = self::VOTINGS_URI . $voteData->profileUrl;
-            $legislator->photo_url = self::VOTINGS_URI . $voteData->photoUrl;
-            $legislator->save();
-        }
-
-        // Actualizo posibles fechas de primera y/o última actividad
-        if (is_null($legislator->first_activity_at) || $legislator->first_activity_at > $voting->voted_at) {
-            $legislator->first_activity_at = $voting->voted_at;
-            $legislator->save();
-        }
-
-        if ($legislator->last_activity_at < $voting->voted_at) {
-            $legislator->last_activity_at = $voting->voted_at;
-            // En el caso de la ultima actividad, ademas actualizo
-            // los datos de partido y provincia
-            // ya que pudieron haber cambiado
-            $legislator->type = Legislator::TYPE_SENATOR;
-            $legislator->party_id = $party->id;
-            $legislator->region_id = $region->id;
-            $legislator->profile_url = self::VOTINGS_URI . $voteData->profileUrl;
-            $legislator->photo_url = self::VOTINGS_URI . $voteData->photoUrl;
-            $legislator->save();
-        }
+        $this->checkLegislatorActivityDates($legislator, $party, $region, $voting, $voteData);
 
         switch ($voteData->vote) {
             case 'AFIRMATIVO':
@@ -226,5 +189,70 @@ class SenatorsController extends Controller
         $vote->save();
 
         return $vote;
+    }
+
+    /**
+     * Actualiza las fechas de actividad del bloque de acuerdo a la fecha de la votacion
+     *
+     * @TODO: ante el cambio de partido o provincia registrarlo en el historial del legislador
+     *
+     * @param Party $party
+     * @param Voting $voting
+     * @return void
+     */
+    private function checkPartyActivityDates($party, $voting)
+    {
+        if (is_null($party->first_activity_at) || $party->first_activity_at > $voting->voted_at) {
+            $party->first_activity_at = $voting->voted_at;
+            $party->save();
+        }
+        if ($party->last_activity_at < $voting->voted_at) {
+            $party->last_activity_at = $voting->voted_at;
+            $party->save();
+        }
+    }
+
+    /**
+     * Actualiza las fechas de actividad del senador de acuerdo a la fecha de la votacion
+     *
+     * @TODO: ante el cambio de partido o provincia registrarlo en el historial del legislador
+     *
+     * @param Legislator $legislator
+     * @param Party $party
+     * @param Region $region
+     * @param Voting $voting
+     * @param stdClass $voteData
+     * @return void
+     */
+    private function checkLegislatorActivityDates($legislator, $party, $region, $voting, $voteData)
+    {
+        if (!$legislator->id) {
+            $legislator->type = Legislator::TYPE_SENATOR;
+            $legislator->original_id = $voteData->legislatorId;
+            $legislator->party_id = $party->id;
+            $legislator->region_id = $region->id;
+            $legislator->profile_url = self::VOTINGS_URI . $voteData->profileUrl;
+            $legislator->photo_url = self::VOTINGS_URI . $voteData->photoUrl;
+            $legislator->save();
+        }
+
+        // Actualizo posibles fechas de primera y/o última actividad
+        if (is_null($legislator->first_activity_at) || $legislator->first_activity_at > $voting->voted_at) {
+            $legislator->first_activity_at = $voting->voted_at;
+            $legislator->save();
+        }
+
+        if ($legislator->last_activity_at < $voting->voted_at) {
+            $legislator->last_activity_at = $voting->voted_at;
+            // En el caso de la ultima actividad, ademas actualizo
+            // los datos de partido y provincia
+            // ya que pudieron haber cambiado
+            $legislator->type = Legislator::TYPE_SENATOR;
+            $legislator->party_id = $party->id;
+            $legislator->region_id = $region->id;
+            $legislator->profile_url = self::VOTINGS_URI . $voteData->profileUrl;
+            $legislator->photo_url = self::VOTINGS_URI . $voteData->photoUrl;
+            $legislator->save();
+        }
     }
 }
