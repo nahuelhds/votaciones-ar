@@ -63,13 +63,19 @@
         "post-create-project-cmd": [
             "@php artisan key:generate --ansi"
         ],
+        "post-install-cmd": [
+            "mkdir -p .git/hooks",
+            "cp git-hooks/pre-commit .git/hooks/pre-commit",
+            "chmod +x .git/hooks/pre-commit"
+        ],
         "cs-check": "vendor/bin/phpcs app routes tests",
         "cs-fix": "vendor/bin/phpcbf app routes tests",
         "md": "vendor/bin/phpmd app,routes,tests text phpmd.xml",
-        "test": "vendor/bin/codecept run",
-        "cs": [
+        "lint": [
             "@cs-check",
-            "@cs-fix"
-        ]
+            "@cs-fix",
+            "@md"
+        ],
+        "test": "vendor/bin/phpunit"
     }
 }

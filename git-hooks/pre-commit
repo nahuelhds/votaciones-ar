@@ -1,0 +1,27 @@
+#!/bin/sh
+PASS=true
+
+echo "\nValidating Composer installation:\n"
+
+# Check for phpcs
+which composer &>/dev/null
+if [[ "$?" == 1 ]]; then
+    echo "\t\033[41mPlease install Composer\033[0m"
+    exit 1
+fi
+
+echo "\nLinting PHP code!\n"
+composer lint
+
+if [[ "$?" != 0 ]]; then
+    PASS=false
+fi
+
+if ! $PASS; then
+    echo "\n\033[31mCOMMIT FAILED\033[0m\nYour commit contains files that should pass PHPCS but do not. Please fix the PHPCS errors and try again.\n"
+    exit 1
+else
+    echo "\033[32mCOMMIT SUCCEEDED\033[0m\n"
+fi
+
+exit $?
