@@ -65,7 +65,7 @@
         ],
         "post-install-cmd": [
             "mkdir -p .git/hooks",
-            "cp git-hooks/pre-commit .git/hooks/pre-commit",
+            "cp .git-hooks/pre-commit .git/hooks/pre-commit",
             "chmod +x .git/hooks/pre-commit"
         ],
         "cs-check": "vendor/bin/phpcs app routes tests",
