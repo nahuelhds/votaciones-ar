@@ -1,14 +1,10 @@
 #!/bin/sh
+
+# SourceTree PATH fix
+PATH=/usr/local/bin:$PATH
+
+# Hook
 PASS=true
-
-echo "\nValidating Composer installation:\n"
-
-# Check for phpcs
-which composer &>/dev/null
-if [[ "$?" == 1 ]]; then
-    echo "\t\033[41mPlease install Composer\033[0m"
-    exit 1
-fi
 
 echo "\nLinting PHP code!\n"
 composer lint
